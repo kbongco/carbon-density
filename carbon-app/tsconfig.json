@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "module": "commonjs",
+    "strict": true,
+    "jsx": "react", // Specify 'react' for JSX mode
+    "esModuleInterop": true // Enable esModuleInterop
+  },
+  "files": [
+    "src/App.tsx"
+  ]
+}
