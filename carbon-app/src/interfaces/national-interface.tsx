@@ -7,7 +7,7 @@ export interface IntensityData {
       actual: number;
       index: string;
     };
-  }[];
+  };
 }
 
 export interface PowerData {
