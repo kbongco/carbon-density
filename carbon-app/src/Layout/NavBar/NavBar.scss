@@ -1,0 +1,17 @@
+.carbon-navbar {
+  width: 90%;
+    height: 72px;
+    background-color: white;
+    border-radius: 10px;
+    display: flex;
+
+    .carbon-navbar-container-icon{
+      display: flex;
+      align-items: center;
+
+      svg {
+        height: 40px;
+        width: 40px;
+      }
+    }
+}

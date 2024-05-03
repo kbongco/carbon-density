@@ -1,9 +1,14 @@
 import React from 'react';
 import './App.scss';
+import NavBar from './Layout/NavBar/NavBar';
 
 const App = () => {
   return (
-      <h3>Carbon Intensity!</h3>
+    <>
+      <div className='carbon-app-container'>
+        <NavBar />
+      </div>
+    </>
   );
 };
 
