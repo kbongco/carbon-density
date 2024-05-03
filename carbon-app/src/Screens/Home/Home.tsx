@@ -49,6 +49,7 @@ export default function Home() {
   }, []);
 
   console.log(todayData);
+  
 
   return ( 
     <>
