@@ -5,8 +5,8 @@ export default function Home() {
   return ( 
     <>
       <section className='carbon-density-home-info'>
-        <p>
-          This is a test
+        <p className='carbon-density-text'>
+          Carbon Intensity Data for today
         </p>
       </section>
     </>
