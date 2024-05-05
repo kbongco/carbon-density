@@ -1,12 +1,11 @@
+import { GenerationMix } from './regional-interface';
 export interface IntensityData {
-  data: {
-    from: string;
-    to: string;
-    intensity: {
-      forecast: number;
-      actual: number;
-      index: string;
-    };
+  from: string;
+  to: string;
+  intensity: {
+    forecast: number;
+    actual: number;
+    index: string;
   };
 }
 
@@ -25,4 +24,12 @@ export interface PowerData {
   "Pumped Storage": number;
   Solar: number;
   Wind: number;
+}
+
+export interface CombinedData {
+  intensityData: IntensityData[] | null;
+  generationData: {
+    from: string;
+    generationmix: GenerationMix[]
+  } | null
 }
