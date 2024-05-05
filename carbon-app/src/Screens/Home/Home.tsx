@@ -5,30 +5,38 @@ import { carbonIntensityAPI, carbonIntensityFactors, carbonIntensityRegional, ge
 import { CombinedData, IntensityData } from '../../interfaces/national-interface';
 import DataCards from '../../Components/DataCards/DataCards';
 import DataChart from '../../Components/Chart';
+import Table from '../../Components/Table/Table';
+import Pagination from '../../Components/Pagination/Pagination';
+import { Region } from '../../interfaces/regional-interface';
+
+interface RegionalData {
+  allRegions: Region[];
+  // Other properties...
+}
 
 export default function Home() {
-
   const [todayData, setTodayData] = useState<CombinedData>({
     intensityData: null,
     generationData: null
-  })
-  const [regionalData, setRegionalData] = useState<unknown>({
+  });
+
+  const [regionalData, setRegionalData] = useState<any>({
     england: null,
     wales: null,
     scotland: null,
     allRegions: null
-  })
+  });
+
+  const [currentPage, setCurrentPage] = useState(0);
+  const itemsPerPage = 6;
 
   const getDate = new Date(); // Current date and time
-
   const options: Intl.DateTimeFormatOptions = {
     year: 'numeric',
     month: 'long', // Full month name
     day: 'numeric'
   };
-
   const currentDate = getDate.toLocaleDateString('en-US', options);
- 
 
   useEffect(() => {
     let source = axios.CancelToken.source();
@@ -68,8 +76,11 @@ export default function Home() {
     };
   }, []);
 
-  console.log(regionalData);
+  const totalItemsRegions = regionalData.allRegions?.[0]?.regions?.length;
 
+  const handlePageChange = (newPage: number) => {
+    setCurrentPage(newPage);
+  };
 
   function changeIntensityTextColor(intensity: unknown) {
     switch (intensity) {
@@ -83,7 +94,6 @@ export default function Home() {
         return 'black';
     }
   }
-
 
   return (
     <>
@@ -125,7 +135,17 @@ export default function Home() {
           </div>
         </div>
       </section>
-      <section className='carbon-density-regional-information'><h1>Test</h1>
+      <section className='carbon-density-regional-information'>
+        <h1>Carbon Intensity by Region</h1>
+        <Table
+          allRegions={regionalData?.allRegions?.[0]?.regions?.slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage)}
+        />
+        <Pagination
+          totalItems={totalItemsRegions}
+          itemsPerPage={itemsPerPage}
+          currentPage={currentPage}
+          onPageChange={handlePageChange}
+        />
       </section>
     </>
   )

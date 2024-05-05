@@ -5,3 +5,10 @@ export default interface ChartData {
     backgroundColor: string[];
   }
 }
+
+export interface PaginationComponent {
+  totalItems: number;
+  itemsPerPage: number;
+  currentPage: number;
+  onPageChange?: any;
+}
