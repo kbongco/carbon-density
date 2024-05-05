@@ -85,6 +85,14 @@
   }
 }
 
+.carbon-density-regional-section {
+  width: 90%;
+  background-color: white;
+  border-radius: 10px;
+  height: 704px; 
+  // fixed height for now before switching things around;
+}
+
 .carbon-density-all-information-container {
   @media(min-width: 1020px){
     display: flex;

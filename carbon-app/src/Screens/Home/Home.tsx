@@ -124,6 +124,9 @@ export default function Home() {
           </div>
         </div>
       </section>
+      <section className='carbon-density-regional-section'>
+        <h1>Carbon Intensity By Region</h1>
+      </section>
     </>
   )
 }
