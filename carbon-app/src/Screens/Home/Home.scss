@@ -8,4 +8,64 @@
   .carbon-density-text {
     font-size: 1.3rem;
   }
+
+  .carbon-density-information-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem;
+    justify-items: center;
+
+    .carbon-density-card-container {
+      width: 168px;
+
+      .carbon-forecast-header {
+        margin-bottom: 0;
+      }
+
+      .carbon-number-data {
+        text-align: center;
+        font-size: 1.4rem;
+        margin-top: 0;
+      }
+    }
+
+  }
+
+  .carbon-density-index-container {
+    margin-top: 0.5rem;
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    grid-template-rows: auto auto 1fr auto;
+    height: 120px;
+  }
+
+  .carbon-forecast-header {
+    margin: 0;
+  }
+
+  .carbon-data {
+    font-size: 1.4rem;
+    margin: 0;
+    text-align: center;
+
+    &.low-intensity {
+      color: #133b24;
+    }
+  
+    &.moderate-intensity {
+      color: #F9A825;
+    }
+  
+    &.high-intensity {
+      color: red;
+    }
+  }
+}
+
+.carbon-density-all-information-container {
+  @media(min-width: 1020px){
+    display: flex;
+  }
 }
