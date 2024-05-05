@@ -28,8 +28,7 @@ export default function Home() {
   };
 
   const currentDate = getDate.toLocaleDateString('en-US', options);
-  console.log(currentDate);
-
+ 
 
   useEffect(() => {
     let source = axios.CancelToken.source();
@@ -68,6 +67,8 @@ export default function Home() {
       source.cancel();
     };
   }, []);
+
+  console.log(regionalData);
 
 
   function changeIntensityTextColor(intensity: unknown) {
@@ -123,6 +124,8 @@ export default function Home() {
             </div>
           </div>
         </div>
+      </section>
+      <section className='carbon-density-regional-information'><h1>Test</h1>
       </section>
     </>
   )
