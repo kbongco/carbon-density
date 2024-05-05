@@ -5,6 +5,13 @@ import { carbonIntensityAPI, carbonIntensityFactors, carbonIntensityRegional, ge
 import { CombinedData, IntensityData } from '../../interfaces/national-interface';
 import DataCards from '../../Components/DataCards/DataCards';
 import DataChart from '../../Components/Chart';
+import Table from '../../Components/Table/Table';
+import { Region } from '../../interfaces/regional-interface';
+
+interface RegionalData {
+  allRegions: Region[];
+  // Other properties...
+}
 
 export default function Home() {
 
@@ -12,7 +19,7 @@ export default function Home() {
     intensityData: null,
     generationData: null
   })
-  const [regionalData, setRegionalData] = useState<unknown>({
+  const [regionalData, setRegionalData] = useState<any>({
     england: null,
     wales: null,
     scotland: null,
@@ -69,6 +76,7 @@ export default function Home() {
   }, []);
 
   console.log(regionalData);
+  console.log(regionalData.allRegions?.[0]?.regions?.length);
 
 
   function changeIntensityTextColor(intensity: unknown) {
@@ -83,6 +91,8 @@ export default function Home() {
         return 'black';
     }
   }
+
+  // const allregionalData = data as RegionalData;
 
 
   return (
@@ -125,7 +135,8 @@ export default function Home() {
           </div>
         </div>
       </section>
-      <section className='carbon-density-regional-information'><h1>Test</h1>
+      <section className='carbon-density-regional-information'><h1>Carbon Intensity by Region</h1>
+        <Table allRegions={regionalData?.allRegions} />
       </section>
     </>
   )
