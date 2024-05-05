@@ -2,11 +2,13 @@
   width: 90%;
   background-color: white;
   border-radius: 10px;
-  height: 704px;
-  // Setting a fixed height for now to see how it looks
+  height: auto;
 
   .carbon-density-text {
     font-size: 1.3rem;
+    max-width: 20ch;
+    margin-left: 0.5rem;
+    margin-bottom: 0.5rem;
   }
 
   .carbon-density-information-container {
@@ -17,6 +19,9 @@
 
     .carbon-density-card-container {
       width: 168px;
+      @media screen and (min-width: 1020px) {
+        width: 100%; 
+      }
 
       .carbon-forecast-header {
         margin-bottom: 0;
@@ -28,7 +33,18 @@
         margin-top: 0;
       }
     }
+  }
 
+  .carbon-density-data-container {
+    margin-top: 0.5rem;
+    @media(min-width: 1020px){
+      display: flex;
+      flex-direction: column;
+      max-width: 328px;
+      width: 100%;
+      gap: 1.4rem;
+      justify-content: end;
+    }
   }
 
   .carbon-density-index-container {
@@ -39,10 +55,15 @@
     grid-template-columns: repeat(1, 1fr);
     grid-template-rows: auto auto 1fr auto;
     height: 120px;
+
+    @media(min-width: 1020px){
+      margin: 0;
+    }
   }
 
   .carbon-forecast-header {
     margin: 0;
+    text-align: center;
   }
 
   .carbon-data {
@@ -67,5 +88,20 @@
 .carbon-density-all-information-container {
   @media(min-width: 1020px){
     display: flex;
+    justify-content: space-around;
   }
 }
+
+.carbon-density-home-info {
+  .carbon-density-information-container {
+    @media(min-width: 1020px){
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 1.4rem;
+    }
+  }
+}
+
+// TODO fix tablet views
+

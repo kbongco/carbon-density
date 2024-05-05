@@ -4,7 +4,6 @@ import axios from 'axios';
 import { carbonIntensityAPI, carbonIntensityFactors, carbonIntensityRegional, getRegionalLocationData } from '../../constants/constants'
 import { CombinedData, IntensityData } from '../../interfaces/national-interface';
 import DataCards from '../../Components/DataCards/DataCards';
-import Chart from '../../Components/Chart';
 import DataChart from '../../Components/Chart';
 
 export default function Home() {
@@ -20,9 +19,21 @@ export default function Home() {
     allRegions: null
   })
 
+  const getDate = new Date(); // Current date and time
+
+  const options: Intl.DateTimeFormatOptions = {
+    year: 'numeric',
+    month: 'long', // Full month name
+    day: 'numeric'
+  };
+
+  const currentDate = getDate.toLocaleDateString('en-US', options);
+  console.log(currentDate);
+
+
   useEffect(() => {
     let source = axios.CancelToken.source();
-  
+
     const getData = async () => {
       try {
         const [todaysResponse, todaysGenerationResponse, englandResponse, walesResponse, scotlandResponse, allRegionResponse] = await Promise.all([
@@ -33,7 +44,7 @@ export default function Home() {
           axios.get(getRegionalLocationData('scotland'), { cancelToken: source.token }),
           axios.get(carbonIntensityRegional, { cancelToken: source.token }),
         ]);
-  
+
         setTodayData({
           intensityData: todaysResponse.data.data,
           generationData: todaysGenerationResponse.data.data
@@ -50,22 +61,16 @@ export default function Home() {
         }
       }
     };
-  
+
     getData();
-  
+
     return () => {
-      // Cancel pending Axios requests when the component is unmounted
       source.cancel();
     };
   }, []);
-  
 
-  console.log(todayData);
-  console.log(todayData?.intensityData, 'no');
-  console.log(todayData?.intensityData?.[0], 'no');
-  console.log(todayData?.intensityData?.[0].intensity, 'no');
 
-  function changeIntensityTextColor(intensity:any) {
+  function changeIntensityTextColor(intensity: unknown) {
     switch (intensity) {
       case 'low':
         return 'low-intensity';
@@ -83,14 +88,16 @@ export default function Home() {
     <>
       <section className='carbon-density-home-info'>
         <div className='carbon-density-graph-container'>
-          <p className='carbon-density-text'>
-            Carbon Intensity Data for today
-          </p>
           <div className='carbon-density-all-information-container'>
-            <div className='carbon-density-graph'>
-              <DataChart todayData={todayData} />
+            <div className='carbon-density-graph-information'>
+              <p className='carbon-density-text'>
+                Carbon Intensity Data for {currentDate}
+              </p>
+              <div className='carbon-density-graph'>
+                <DataChart todayData={todayData} />
+              </div>
             </div>
-            <div>
+            <div className='carbon-density-data-container'>
               <div className='carbon-density-information-container'>
                 <div className='carbon-density-card-container'>
                   <DataCards>
@@ -110,7 +117,7 @@ export default function Home() {
                   <p className='carbon-forecast-header'>Index</p>
                   <p className={`carbon-data ${changeIntensityTextColor(todayData?.intensityData?.[0]?.intensity?.index)}`}>
                     {todayData?.intensityData?.[0]?.intensity?.index.toUpperCase()}
-</p>
+                  </p>
                 </DataCards>
               </div>
             </div>
