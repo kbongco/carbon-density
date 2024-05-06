@@ -135,6 +135,7 @@ export default function Home() {
           </div>
         </div>
       </section>
+      <div className='carbon-density-regional-container'>
       <section className='carbon-density-regional-information'>
         <h1>Carbon Intensity by Region</h1>
         <Table
@@ -146,7 +147,11 @@ export default function Home() {
           currentPage={currentPage}
           onPageChange={handlePageChange}
         />
-      </section>
+        </section>
+        <section className='carbon-density-regional-side-panel'>
+          <h1>View Regional Data</h1>
+        </section>
+        </div>
     </>
   )
 }

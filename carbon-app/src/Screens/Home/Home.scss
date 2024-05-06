@@ -85,12 +85,36 @@
   }
 }
 
-.carbon-density-regional-information{ 
-  width: 90%;
-  background-color: white;
-  border-radius: 10px;
-  height: auto;
+.carbon-density-regional-container {
+  display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 20px;
+    justify-content: stretch;
+    width: 90%;
+
+  .carbon-density-regional-information{ 
+    background-color: white;
+    border-radius: 10px;
+    height: auto;
+    grid-column: span 9;
+  }
+  
+  .carbon-density-regional-side-panel {
+    background-color: white;
+    border-radius: 10px;
+    height: auto;
+    grid-column: span 3; 
+    width: auto;
+  }
 }
+
+.carbon-density-regional-container {
+  @media(max-width: 768px){
+    display: flex;
+    flex-direction: column;
+  }
+}
+
 
 .carbon-density-all-information-container {
   @media(min-width: 1020px){
