@@ -3,6 +3,8 @@ import './Table.scss';
 import { faSortDown } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
+
+
 export default function Table({ allRegions, currentPage, itemsPerPage, onViewData }: any) {
   const startIndex = currentPage * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;

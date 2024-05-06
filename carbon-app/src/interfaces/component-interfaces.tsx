@@ -12,3 +12,9 @@ export interface PaginationComponent {
   currentPage: number;
   onPageChange?: any;
 }
+
+export interface TableComponent {
+  currentPage: number;
+  itemsPerPage: number;
+  onViewData?: () => void;
+}
