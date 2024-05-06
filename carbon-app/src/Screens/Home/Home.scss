@@ -35,6 +35,10 @@
     }
   }
 
+  .regional-card-data-info {
+    width: 70%;
+  }
+
   .carbon-density-data-container {
     margin-top: 0.5rem;
     @media(min-width: 1020px){
@@ -128,6 +132,11 @@
       }
     }
   }
+}
+
+.intensity-card-text {
+  margin-top: 0.5rem;
+  text-align: center;
 }
 
 .carbon-density-regional-container {

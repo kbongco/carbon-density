@@ -8,6 +8,8 @@ import DataChart from '../../Components/Chart';
 import Table from '../../Components/Table/Table';
 import Pagination from '../../Components/Pagination/Pagination';
 import { Region } from '../../interfaces/regional-interface';
+import getDateOneWeekAgo from '../../utils/calculateDateMonth';
+import getDateOneMonthAgo from '../../utils/calculateDateMonth';
 
 interface RegionalData {
   allRegions: Region[];
@@ -30,6 +32,7 @@ export default function Home() {
   const [currentPage, setCurrentPage] = useState(0);
   const itemsPerPage = 6;
   const [selectedRegion, setSelectedRegion] = useState<any>(null);
+  const [selectedPeriod, setSelectedPeriod] = useState('Current');
 
   const getDate = new Date(); // Current date and time
   const options: Intl.DateTimeFormatOptions = {
@@ -77,7 +80,9 @@ export default function Home() {
     };
   }, []);
 
-  console.log(selectedRegion);
+  console.log(selectedRegion?.regionid,'sel');
+
+
 
   const totalItemsRegions = regionalData.allRegions?.[0]?.regions?.length;
 
@@ -101,6 +106,68 @@ export default function Home() {
         return 'black';
     }
   }
+
+  const todayDateISO = new Date().toISOString();
+  const oneWeekAgo = getDateOneWeekAgo(todayDateISO);
+  const oneMonthAgo = getDateOneMonthAgo(todayDateISO);
+  const [apiData, setApiData] = useState(null);
+  const regionId = selectedRegion?.regionid;
+  let weekAgo = new Date();
+weekAgo.setDate(weekAgo.getDate() - 7);
+console.log(weekAgo.toLocaleString());
+
+useEffect(() => {
+  const fetchApiData = async () => {
+    let startDate, endDate;
+
+    if (selectedPeriod === 'Week') {
+      let weekAgo = new Date();
+      weekAgo.setDate(weekAgo.getDate() - 7);
+      startDate = weekAgo.toISOString();
+      endDate = todayDateISO;
+    } else if (selectedPeriod === 'Month') {
+      startDate = getDateOneMonthAgo(todayDateISO);
+      endDate = todayDateISO;
+    } else {
+      startDate = todayDateISO;
+      endDate = todayDateISO;
+    }
+
+    const apiUrl = `https://api.carbonintensity.org.uk/regional/intensity/${startDate}/${endDate}/regionid/${regionId}`;
+
+    try {
+      const response = await axios.get(apiUrl);
+      const filteredData = response.data.data.data.filter((entry: { from: string; to: string; }) => {
+        const fromTime = entry.from.split('T')[1].split(':')[0];
+        const toTime = entry.to.split('T')[1].split(':')[0];
+        return fromTime === '00' && toTime === '00';
+      });
+      console.log(filteredData);
+      // console.log(filteredData)
+      setApiData(response.data);
+      console.log(response);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  };
+
+  if (selectedPeriod === 'Week' || selectedPeriod === 'Month') {
+    fetchApiData();
+  }
+}, [selectedPeriod, regionId]);
+
+
+  const handlePeriodClick = (period: any) => {
+    console.log('no')
+    setSelectedPeriod(period);
+    console.log(period);
+  };
+
+  // TODO: 
+  // Display API data for Month and Week
+  // Move Regional Section into its own Component
+  // Fix up sorting implementation on the UI 
+  // Create Detail Page design 
 
   return (
     <>
@@ -143,54 +210,58 @@ export default function Home() {
         </div>
       </section>
       <div className='carbon-density-regional-container'>
-      <section className='carbon-density-regional-information'>
-        <h1>Carbon Intensity by Region</h1>
-        <Table
+        <section className='carbon-density-regional-information'>
+          <h1>Carbon Intensity by Region</h1>
+          <Table
             allRegions={regionalData?.allRegions?.[0]?.regions?.slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage)}
             onViewData={handleViewData}
           />
           <div className='carbon-density-pagination-container'>
-        <Pagination
-          totalItems={totalItemsRegions}
-          itemsPerPage={itemsPerPage}
-          currentPage={currentPage}
-          onPageChange={handlePageChange}
+            <Pagination
+              totalItems={totalItemsRegions}
+              itemsPerPage={itemsPerPage}
+              currentPage={currentPage}
+              onPageChange={handlePageChange}
             />
-            </div>
+          </div>
         </section>
         <section className='carbon-density-regional-side-panel'>
           <h1>View Regional Data</h1>
           <div className='carbon-density-select-view'>
             <ul>
-              <li>Current</li>
+              <li onClick={() => handlePeriodClick('Current')}>Current</li>
               |
-              <li>Week</li>
+              <li onClick={() => handlePeriodClick('Week')}>Week</li>
               |
-              <li>Month</li>
+              <li onClick={() => handlePeriodClick('Month')}>Month</li>
             </ul>
           </div>
           <div className='carbon-density-text'>
             {selectedRegion && (
-            <>
-              <h1>{selectedRegion.dnoregion}</h1>
+              <>
+                <h1>{selectedRegion.dnoregion}</h1>
                 <div className='carbon-density-card-container'>
-                  <DataCards>
-                    <p>Intensity Forecast</p>
-                  <p>{selectedRegion.intensity.forecast}</p> 
-                  </DataCards>
+                  <div className='regional-card-data-info'>
+                    <DataCards>
+                      <p className='intensity-card-text'>Intensity Forecast</p>
+                      <p className='intensity-card-text'>{selectedRegion.intensity.forecast}</p>
+                    </DataCards>
+                  </div>
+                  <div className='carbon-density-card-container'>
+                    <div className='regional-card-data-info'>
+                    <DataCards>
+                      <p className='intensity-card-text'>Intensity Index</p>
+                      <p className='intensity-card-text'>{selectedRegion.intensity.index}</p>
+                    </DataCards>
+                    </div>
+                  </div>
                 </div>
-                <div className='carbon-density-card-container'>
-                  <DataCards>
-                    <p>Intensity Index</p>
-                  <p>{selectedRegion.intensity.index}</p>
-                  </DataCards>
-                </div>
-            </>
+              </>
             )}
             <p>Go to region</p>
           </div>
         </section>
-        </div>
+      </div>
     </>
   )
 }

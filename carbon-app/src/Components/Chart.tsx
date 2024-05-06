@@ -50,31 +50,6 @@ export default function DataChart({ todayData }: any) {
     };
   }, [window.innerWidth]);
 
-  // const [aspectRatio, setAspectRatio] = useState(1);
-
-  // useEffect(() => {
-  //   const handleResize = () => {
-  //     if (window.innerWidth >= 1020) {
-  //       console.log(window.innerWidth);
-  //       setAspectRatio(2); // Change aspect ratio for larger screens
-  //     } else {
-  //       setAspectRatio(1); // Reset aspect ratio for smaller screens
-  //       console.log(window.innerWidth);
-  //     }
-  //   };
-    
-  //   console.log(aspectRatio,window.innerWidth,'size');
-
-
-  //   window.addEventListener('resize', handleResize);
-  //   handleResize();
-
-  //   // Clean up event listener on component unmount
-  //   return () => {
-  //     window.removeEventListener('resize', handleResize);
-  //   };
-  // }, [window.innerWidth]);
-
   const data = {
     labels: dataNames,
     datasets: [
