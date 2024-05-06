@@ -13,6 +13,13 @@
   border: 1px solid #ddd; /* Header cell border */
 }
 
+button {
+  background-color: transparent; /* Remove button background */
+  border: none; /* Remove button border */
+  padding: 0; /* Remove default padding */
+  cursor: pointer; /* Add pointer cursor */
+}
+
 
 .table-container th,
 .table-container td {

@@ -29,6 +29,7 @@ export default function Home() {
 
   const [currentPage, setCurrentPage] = useState(0);
   const itemsPerPage = 6;
+  const [selectedRegion, setSelectedRegion] = useState<any>(null);
 
   const getDate = new Date(); // Current date and time
   const options: Intl.DateTimeFormatOptions = {
@@ -76,10 +77,16 @@ export default function Home() {
     };
   }, []);
 
+  console.log(selectedRegion);
+
   const totalItemsRegions = regionalData.allRegions?.[0]?.regions?.length;
 
   const handlePageChange = (newPage: number) => {
     setCurrentPage(newPage);
+  };
+
+  const handleViewData = (regionData: any) => {
+    setSelectedRegion(regionData);
   };
 
   function changeIntensityTextColor(intensity: unknown) {
@@ -139,7 +146,8 @@ export default function Home() {
       <section className='carbon-density-regional-information'>
         <h1>Carbon Intensity by Region</h1>
         <Table
-          allRegions={regionalData?.allRegions?.[0]?.regions?.slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage)}
+            allRegions={regionalData?.allRegions?.[0]?.regions?.slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage)}
+            onViewData={handleViewData}
           />
           <div className='carbon-density-pagination-container'>
         <Pagination
@@ -154,13 +162,32 @@ export default function Home() {
           <h1>View Regional Data</h1>
           <div className='carbon-density-select-view'>
             <ul>
+              <li>Current</li>
+              |
               <li>Week</li>
               |
               <li>Month</li>
             </ul>
           </div>
           <div className='carbon-density-text'>
-            <p> Select a region from the table to display current data</p>
+            {selectedRegion && (
+            <>
+              <h1>{selectedRegion.dnoregion}</h1>
+                <div className='carbon-density-card-container'>
+                  <DataCards>
+                    <p>Intensity Forecast</p>
+                  <p>{selectedRegion.intensity.forecast}</p> 
+                  </DataCards>
+                </div>
+                <div className='carbon-density-card-container'>
+                  <DataCards>
+                    <p>Intensity Index</p>
+                  <p>{selectedRegion.intensity.index}</p>
+                  </DataCards>
+                </div>
+            </>
+            )}
+            <p>Go to region</p>
           </div>
         </section>
         </div>
