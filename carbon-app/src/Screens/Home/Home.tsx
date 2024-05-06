@@ -140,13 +140,15 @@ export default function Home() {
         <h1>Carbon Intensity by Region</h1>
         <Table
           allRegions={regionalData?.allRegions?.[0]?.regions?.slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage)}
-        />
+          />
+          <div className='carbon-density-pagination-container'>
         <Pagination
           totalItems={totalItemsRegions}
           itemsPerPage={itemsPerPage}
           currentPage={currentPage}
           onPageChange={handlePageChange}
-        />
+            />
+            </div>
         </section>
         <section className='carbon-density-regional-side-panel'>
           <h1>View Regional Data</h1>

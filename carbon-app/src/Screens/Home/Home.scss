@@ -92,6 +92,13 @@
     justify-content: stretch;
     width: 90%;
 
+    .carbon-density-pagination-container {
+      display: flex;
+    justify-content: center;
+    margin-top: 1rem;
+    gap: 1rem;
+    }
+
   .carbon-density-regional-information{ 
     background-color: white;
     border-radius: 10px;
