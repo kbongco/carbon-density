@@ -150,6 +150,16 @@ export default function Home() {
         </section>
         <section className='carbon-density-regional-side-panel'>
           <h1>View Regional Data</h1>
+          <div className='carbon-density-select-view'>
+            <ul>
+              <li>Week</li>
+              |
+              <li>Month</li>
+            </ul>
+          </div>
+          <div className='carbon-density-text'>
+            <p> Select a region from the table to display current data</p>
+          </div>
         </section>
         </div>
     </>

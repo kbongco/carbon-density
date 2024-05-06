@@ -102,9 +102,24 @@
   .carbon-density-regional-side-panel {
     background-color: white;
     border-radius: 10px;
-    height: auto;
+    height: 700px; 
+    // hard coded values for now;
     grid-column: span 3; 
     width: auto;
+
+    .carbon-density-select-view{ 
+      list-style: none;
+      display: flex;
+      gap: 0.5rem;
+      justify-content: end;
+      margin-right: 1rem;
+
+      ul {
+        list-style-type: none;
+        display: flex;
+        gap: 0.5rem;
+      }
+    }
   }
 }
 

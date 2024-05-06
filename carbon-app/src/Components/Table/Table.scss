@@ -2,7 +2,17 @@
 .table-container {
   width: 100%;
   border-collapse: collapse;
+  
 }
+
+.table-container table th {
+  background-color: #f2f2f2; /* Header background color */
+  color: #333; /* Header text color */
+  font-weight: bold;
+  padding: 8px; /* Header cell padding */
+  border: 1px solid #ddd; /* Header cell border */
+}
+
 
 .table-container th,
 .table-container td {
@@ -20,4 +30,11 @@
 /* Define styles for alternate rows */
 .table-container tr:nth-child(even) {
   background-color: #f2f2f2;
+}
+
+@media screen and (max-width: 768px) {
+  .table-container table td:nth-child(3),
+  .table-container table th:nth-child(3) {
+    display: none; /* Hide the third column */
+  }
 }

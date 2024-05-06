@@ -1,4 +1,5 @@
 import React from "react";
+import './Table.scss';
 
 export default function Table({ allRegions, currentPage, itemsPerPage, onViewData }: any) {
   const startIndex = currentPage * itemsPerPage;
