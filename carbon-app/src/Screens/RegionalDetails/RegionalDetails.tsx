@@ -2,6 +2,7 @@ import React from "react";
 import { useLocation } from 'react-router-dom';
 import DisplayBackground from '../../Components/DisplayBackground/DisplayBackground';
 import DataChart from "../../Components/Chart";
+import DataCards from "../../Components/DataCards/DataCards";
 
 export default function RegionalDetails() {
   const location = useLocation();
@@ -16,7 +17,7 @@ export default function RegionalDetails() {
   const chartData = state.selectedRegion.generationmix;
   console.log(chartData);
   console.log(location);
-  
+
   console.log(state.selectedRegion.dnoregion);
 
   // TODO for tomorrow:
@@ -24,8 +25,7 @@ export default function RegionalDetails() {
   // fix pagination component
   // Create drop down which allows user to switch regions
   // install date picker
-  // Email and ask about the custom time range 
-  return ( 
+  return (
     <>
       <DisplayBackground>
         <h1>{state.selectedRegion.dnoregion} </h1>
@@ -34,12 +34,34 @@ export default function RegionalDetails() {
             <div className='carbon-density-graph-information'>
               <p className='carbon-density-text'> Carbon Intensity Data for {currentDate}</p>
               <div className='carbon-density-graph'>
-              <DataChart chartData={state.selectedRegion} />
+                <DataChart chartData={state.selectedRegion} />
               </div>
+            </div>
+            <div className='carbon-density-data-container'>
+              <div className='carbon-density-information-container'>
+                <div className='carbon-density-card-container'>
+                  <DataCards>
+                    <p className='carbon-forecast-header'>Forecast</p>
+                    <p>{state.selectedRegion.intensity.forecast}</p>
+                  </DataCards>
+                </div>
+              </div>
+              <div className='carbon-intensity-information-container'>
+                <DataCards>
+                  <p className='carbon-forecast-header'>Actual</p>
+                  <p className='carbon-number-data'>{state.selectedRegion.intensity.actual}</p>
+                </DataCards>
+              </div>
+            </div>
+            <div className='carbon-density-index-container'>
+              <DataCards>
+                <p className='carbon-forecast-header'>Index</p>
+                <p></p>
+              </DataCards>
             </div>
           </div>
         </div>
-        </DisplayBackground>
+      </DisplayBackground>
     </>
   )
 }
