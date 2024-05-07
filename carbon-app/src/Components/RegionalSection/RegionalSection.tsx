@@ -6,6 +6,7 @@ import axios from "axios";
 import calculateAverage from "../../utils/calculateAverage";
 import getDateOneMonthAgo from "../../utils/calculateDateMonth";
 import './RegionalSection.scss';
+import { Link } from "react-router-dom";
 
 export default function RegionalSection({ regionalData }: any) {
   const [selectedRegion, setSelectedRegion] = useState<any>(null);
@@ -99,6 +100,7 @@ export default function RegionalSection({ regionalData }: any) {
     setCurrentMonthPage(newPage);
   };
 
+  const linkState = { selectedRegion };
 
   
   return ( 
@@ -170,7 +172,16 @@ export default function RegionalSection({ regionalData }: any) {
                 {!selectedRegion && (
       <p>Please select a region from the table to view the data!</p>
     )}
-            <p>Go to region</p>
+                  <Link
+                   to={`/regional-data/${regionId}`}
+                   state={linkState} // Pass the object with the state property
+        // to={{
+        //   pathname: `/regional-data/${regionId}`,
+        //   state: linkState, // Pass the object with the state property
+        // }}
+      >
+        Go to region
+      </Link>
           </div>
         </section>
       </div>

@@ -12,7 +12,7 @@ const App = () => {
         <NavBar />
           <Routes>
             <Route path='/' element={<Home/>}/>
-            <Route path='/regional-details' element={<RegionalDetails/>}/>
+            <Route path="/regional-data/:regionId"  element={<RegionalDetails/>}/>
           </Routes>
       </div>
     </>
