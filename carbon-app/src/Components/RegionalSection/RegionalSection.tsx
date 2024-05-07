@@ -5,6 +5,10 @@ import Table from "../Table/Table";
 import axios from "axios";
 import calculateAverage from "../../utils/calculateAverage";
 import getDateOneMonthAgo from "../../utils/calculateDateMonth";
+import './RegionalSection.scss';
+import { faSortDown } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+// import { regionalColumns, specificRegions } from "../../constants/constants";
 
 export default function RegionalSection({ regionalData }: any) {
   const [selectedRegion, setSelectedRegion] = useState<any>(null);
@@ -19,10 +23,23 @@ export default function RegionalSection({ regionalData }: any) {
   const regionId = selectedRegion?.regionid;
 
   const handlePeriodClick = (period: any) => {
-    console.log('no')
     setSelectedPeriod(period);
-    console.log(period);
   };
+
+
+
+ const regionalColumns = [
+    { key: 'dnoregion', label: 'Region' },
+    { key: 'intensity.forecast', label: 'Forecast'
+    },
+    { key: 'intensity.index', label: 'Index' },
+    { key: 'viewDetails', label: 'View Details'}
+  ];
+
+  const specificRegions = [
+    { key: 'intensity.forecast', label: 'Forecast' },
+    { key: 'intensity.index', label: 'Index' },
+  ]
 
   useEffect(() => {
     const fetchApiData = async () => {
@@ -50,6 +67,7 @@ export default function RegionalSection({ regionalData }: any) {
           const toTime = entry.to.split('T')[1].split(':')[0];
           return fromTime === '00' && toTime === '00';
         });
+        console.log(filteredData, 'bro');
         const averageIntensity = calculateAverage(filteredData);
         setAverageForecast(Math.floor(averageIntensity));
       } catch (error) {
@@ -62,9 +80,14 @@ export default function RegionalSection({ regionalData }: any) {
     }
   }, [selectedPeriod, regionId]);
 
-  const handleViewData = (regionData: any) => {
+  const handleViewDetails = (regionData: any) => {
     setSelectedRegion(regionData);
+    console.log(regionData);
+    setSelectedPeriod('Current');
+    setAverageForecast(0);
+    // Additional logic to show details for the selected region
   };
+
 
   const handlePageChange = (newPage: number) => {
     setCurrentPage(newPage);
@@ -74,10 +97,7 @@ export default function RegionalSection({ regionalData }: any) {
      <div className='carbon-density-regional-container'>
         <section className='carbon-density-regional-information'>
           <h1>Carbon Intensity by Region</h1>
-          <Table
-            allRegions={regionalData?.allRegions?.[0]?.regions?.slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage)}
-            onViewData={handleViewData}
-          />
+          <Table data={regionalData?.allRegions?.[0]?.regions?.slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage)} columns={regionalColumns} handleViewDetails={handleViewDetails} />
           <div className='carbon-density-pagination-container'>
             <Pagination
               totalItems={totalItemsRegions}
@@ -103,6 +123,7 @@ export default function RegionalSection({ regionalData }: any) {
               <>
                 <h1>{selectedRegion.dnoregion}</h1>
                 {selectedPeriod === 'Current' && (
+                  <div>
                   <div className='carbon-density-card-container'>
                     <div className='regional-card-data-info'>
                       <DataCards>
@@ -119,20 +140,26 @@ export default function RegionalSection({ regionalData }: any) {
                       </div>
                     </div>
                   </div>
+                  </div>
                 )}
                 {selectedPeriod === 'Week' && (
                   <>
-                    <p>Week Data</p>
+                    <p>Weekly Carbon Intensity Average</p>
                     <DataCards>
                       <p className='intensity-card-text'>Week Average Intensity Forecast</p>
                       <p>{averageForecast}</p>
                     </DataCards>
+                    <div>
+                      <Table data={selectedRegion} columns={specificRegions} />
+                      {/* <Table
+                                  allRegions={regionalData?.allRegions?.[0]?.regions?.slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage)}/> */}
+                    </div>
                   </>
 
                 )}
                 {selectedPeriod === 'Month' && (
                   <>
-                  <p>Month Data</p>                    
+                  <p>Previous Month Carbon Intensity Average</p>                    
                   <DataCards>
                   <p className='intensity-card-text'>Monthly Average Intensity Forecast</p>
                   <p>{averageForecast}</p>
@@ -141,6 +168,9 @@ export default function RegionalSection({ regionalData }: any) {
                 )}
               </>
             )}
+                {!selectedRegion && (
+      <p>Please select a region from the table to view the data!</p>
+    )}
             <p>Go to region</p>
           </div>
         </section>

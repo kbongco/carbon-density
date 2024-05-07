@@ -15,3 +15,15 @@ export const getRegionalDataByOneWeek = (todayDateISO:string, oneWeekAgo:string,
 export const getRegionalDataByOneMonth = (todayDateISO: string, oneMonthAgo: string, regionid: number) => {
   return `https://api.carbonintensity.org.uk/regional/intensity/${oneMonthAgo}/${todayDateISO}/regionid/${regionid}`
 }
+
+export const regionalColumns = [
+  { key: 'dnoregion', label: 'Region' },
+  { key: 'intensity.forecast', label: 'Forecast' },
+  { key: 'intensity.index', label: 'Index' },
+  { key: 'viewDetails', label: 'View Details' } 
+];
+
+export const specificRegions = [
+  { key: 'intensity.forecast', label: 'Forecast' },
+  { key: 'intensity.index', label: 'Index' },
+]

@@ -14,7 +14,8 @@ export interface PaginationComponent {
 }
 
 export interface TableComponent {
-  currentPage: number;
-  itemsPerPage: number;
-  onViewData?: () => void;
+  allRegions: any;
+  currentPage?: number;
+  itemsPerPage?: number;
+  onViewData?: any;
 }

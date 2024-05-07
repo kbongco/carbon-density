@@ -2,62 +2,61 @@ import React, { useEffect, useState } from "react";
 import './Table.scss';
 import { faSortDown } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { TableComponent } from "../../interfaces/component-interfaces";
 
+export default function Table({ data, columns, handleViewDetails }: any) {
+  console.log(data, 'yes');
 
-
-export default function Table({ allRegions, currentPage, itemsPerPage, onViewData }: any) {
-  const startIndex = currentPage * itemsPerPage;
-  const endIndex = startIndex + itemsPerPage;
-  const [sortedRegions, setSortedRegions] = useState(allRegions);
-
-
-  const currentPageData = allRegions?.slice(startIndex, endIndex);
-
-  console.log(allRegions);
-
-  const sortRegions = () => {
-    if (!allRegions) return; // Check if allRegions is defined
+  const getColumnValue = (row: any, key: string) => {
+    const keys = key.split('.'); 
+    let value = row;
   
-    // Sort the regions based on intensity
-    const sorted = [...allRegions]?.sort((a, b) => a?.intensity?.forecast - b?.intensity?.forecast);
-    
-    setSortedRegions(sorted); // Update the sortedRegions state with the sorted array
+    for (const k of keys) {
+      if (value && typeof value === 'object' && k in value) {
+        value = value[k];
+      } else {
+        value = undefined;
+        break;
+      }
+    }
+  
+    // If a render function exists for the column, invoke it with the value
+    const column = columns.find((col: any) => col.key === key);
+    if (value && typeof value !== 'object' && column && column.render) {
+      return column.render(value);
+    }
+  
+    return value;
   };
-  
-  useEffect(() => {
-    sortRegions();
-  }, [allRegions]);
-  
 
   return (
     <div className="table-container">
+    <div className="table-container">
       <table>
         <thead>
-        <tr>
-            <th>Region</th>
-            <th>
-              Forecast 
-              <button onClick={sortRegions}>
-                <FontAwesomeIcon icon={faSortDown} />
-              </button>
-            </th>
-            <th>Index </th>
-            <th>View Data</th>
+          <tr>
+            {columns.map((column:any, index:number) => (
+              <th key={index}>{column.label}</th>
+            ))}
           </tr>
         </thead>
         <tbody>
-          {sortedRegions?.map((regionData: any, index: any) => (
-            <tr key={index}>
-              <td>{regionData?.dnoregion}</td>
-              <td>{regionData?.intensity?.forecast}</td>
-              <td>{regionData?.intensity?.index}</td>
-              <td>
-                <button onClick={() => onViewData(regionData)}>View Data</button>
-              </td>
+          {data?.map((item:any, rowIndex:any) => (
+            <tr key={rowIndex}>
+              {columns.map((column:any, colIndex:number) => (
+                <td key={colIndex}>
+                  {column.key === 'viewDetails' ? (
+                    <button onClick={() => handleViewDetails(item)}>View More Details</button>
+                  ) : (
+                    getColumnValue(item, column.key)
+                  )}
+                </td>
+              ))}
             </tr>
           ))}
         </tbody>
       </table>
+    </div>
     </div>
   );
 }
