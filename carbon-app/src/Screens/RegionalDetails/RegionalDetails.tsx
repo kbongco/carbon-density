@@ -1,10 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import { useLocation } from 'react-router-dom';
 import DisplayBackground from '../../Components/DisplayBackground/DisplayBackground';
 import DataChart from "../../Components/Chart";
 import DataCards from "../../Components/DataCards/DataCards";
+import Select from '../../Components/Select/Select';
+import './RegionalDetails.scss';
 
 export default function RegionalDetails() {
+  const [selectedValue, setSelectedValue] = useState('');
   const location = useLocation();
   const state = location.state;
   const getDate = new Date(); // Current date and time
@@ -19,6 +22,17 @@ export default function RegionalDetails() {
   console.log(location);
 
   console.log(state.selectedRegion.dnoregion);
+  console.log(state.allRegion, 'test');
+
+  const handleChange = (value: string) => {
+    setSelectedValue(value);
+    console.log(value);
+  };
+
+  const regionOptions = state.allRegions?.map((region: any) => ({
+    value: region.regionid,
+    label: region.dnoregion
+  }))
 
   // TODO for tomorrow:
   // set up UI for the regional page
@@ -27,6 +41,12 @@ export default function RegionalDetails() {
   // install date picker
   return (
     <>
+      <DisplayBackground>
+        <div className='carbon-density-select-region'>
+          <h1>Select Region</h1>
+          <Select label='Choose an option' options={regionOptions} value={selectedValue} onChange={handleChange} />
+        </div>
+      </DisplayBackground>
       <DisplayBackground>
         <h1>{state.selectedRegion.dnoregion} </h1>
         <div className='carbon-density-graph-container'>
@@ -45,19 +65,13 @@ export default function RegionalDetails() {
                     <p>{state.selectedRegion.intensity.forecast}</p>
                   </DataCards>
                 </div>
+                <div className='carbon-density-card-container'>
+                  <DataCards>
+                    <p className='carbon-forecast-header'>Index</p>
+                    <p>{state.selectedRegion.intensity.index}</p>
+                  </DataCards>
+                </div>
               </div>
-              <div className='carbon-intensity-information-container'>
-                <DataCards>
-                  <p className='carbon-forecast-header'>Actual</p>
-                  <p className='carbon-number-data'>{state.selectedRegion.intensity.actual}</p>
-                </DataCards>
-              </div>
-            </div>
-            <div className='carbon-density-index-container'>
-              <DataCards>
-                <p className='carbon-forecast-header'>Index</p>
-                <p></p>
-              </DataCards>
             </div>
           </div>
         </div>

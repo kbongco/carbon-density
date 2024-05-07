@@ -19,3 +19,15 @@ export interface TableComponent {
   itemsPerPage?: number;
   onViewData?: any;
 }
+
+export interface Options {
+  value: number | string;
+  label: string;
+}
+
+export interface SelectComponent {
+  label: string;
+  options: Options[];
+  value: string;
+  onChange: any;
+}
