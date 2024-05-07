@@ -8,5 +8,8 @@ body {
 
 .carbon-app-container {
   display: flex;
-  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 2rem;
+  margin-top: 2rem;
 }

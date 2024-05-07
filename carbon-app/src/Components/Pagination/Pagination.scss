@@ -1,0 +1,15 @@
+.carbon-density-pagination-container-comp {
+  display: flex;
+    gap: 1rem;
+
+    button {
+      background-color: transparent; /* Remove button background */
+      border: none; /* Remove button border */
+      padding: 0; /* Remove default padding */
+      cursor: pointer; /* Add pointer cursor */
+    }
+
+    svg {
+      height: 25px;
+    }
+}
