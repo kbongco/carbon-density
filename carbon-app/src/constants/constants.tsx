@@ -7,3 +7,23 @@ export const carbonIntensityFactors = 'https://api.carbonintensity.org.uk/genera
 export const getRegionalLocationData = (country: string) => {
   return `https://api.carbonintensity.org.uk/regional/${country}`
 }
+
+export const getRegionalDataByOneWeek = (todayDateISO:string, oneWeekAgo:string, regionid: number) => {
+  return `https://api.carbonintensity.org.uk/regional/intensity/${oneWeekAgo}/${todayDateISO}/regionid/${regionid}`
+}
+
+export const getRegionalDataByOneMonth = (todayDateISO: string, oneMonthAgo: string, regionid: number) => {
+  return `https://api.carbonintensity.org.uk/regional/intensity/${oneMonthAgo}/${todayDateISO}/regionid/${regionid}`
+}
+
+export const regionalColumns = [
+  { key: 'dnoregion', label: 'Region' },
+  { key: 'intensity.forecast', label: 'Forecast' },
+  { key: 'intensity.index', label: 'Index' },
+  { key: 'viewDetails', label: 'View Details' } 
+];
+
+export const specificRegions = [
+  { key: 'intensity.forecast', label: 'Forecast' },
+  { key: 'intensity.index', label: 'Index' },
+]

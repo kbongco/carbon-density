@@ -1,0 +1,47 @@
+/* Define styles for the table */
+.table-container {
+  width: 100%;
+  border-collapse: collapse;
+  
+}
+
+.table-container table th {
+  background-color: #f2f2f2; /* Header background color */
+  color: #333; /* Header text color */
+  font-weight: bold;
+  padding: 8px; /* Header cell padding */
+  border: 1px solid #ddd; /* Header cell border */
+}
+
+button {
+  background-color: transparent; /* Remove button background */
+  border: none; /* Remove button border */
+  padding: 0; /* Remove default padding */
+  cursor: pointer; /* Add pointer cursor */
+}
+
+
+.table-container th,
+.table-container td {
+  padding: 8px;
+  border: 1px solid #ddd;
+}
+
+/* Define styles for table header */
+.table-container th {
+  background-color: #f2f2f2;
+  font-weight: bold;
+  text-align: left;
+}
+
+/* Define styles for alternate rows */
+.table-container tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+@media screen and (max-width: 768px) {
+  .table-container table td:nth-child(3),
+  .table-container table th:nth-child(3) {
+    display: none; /* Hide the third column */
+  }
+}

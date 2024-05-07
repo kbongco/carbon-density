@@ -5,30 +5,36 @@ import { carbonIntensityAPI, carbonIntensityFactors, carbonIntensityRegional, ge
 import { CombinedData, IntensityData } from '../../interfaces/national-interface';
 import DataCards from '../../Components/DataCards/DataCards';
 import DataChart from '../../Components/Chart';
+import { Region } from '../../interfaces/regional-interface';
+import getDateOneWeekAgo from '../../utils/calculateDateMonth';
+import getDateOneMonthAgo from '../../utils/calculateDateMonth';
+import RegionalSection from '../../Components/RegionalSection/RegionalSection';
+
+interface RegionalData {
+  allRegions: Region[];
+  // Other properties...
+}
 
 export default function Home() {
-
   const [todayData, setTodayData] = useState<CombinedData>({
     intensityData: null,
     generationData: null
-  })
-  const [regionalData, setRegionalData] = useState<unknown>({
+  });
+
+  const [regionalData, setRegionalData] = useState<any>({
     england: null,
     wales: null,
     scotland: null,
     allRegions: null
-  })
+  });
 
   const getDate = new Date(); // Current date and time
-
   const options: Intl.DateTimeFormatOptions = {
     year: 'numeric',
     month: 'long', // Full month name
     day: 'numeric'
   };
-
   const currentDate = getDate.toLocaleDateString('en-US', options);
- 
 
   useEffect(() => {
     let source = axios.CancelToken.source();
@@ -68,9 +74,6 @@ export default function Home() {
     };
   }, []);
 
-  console.log(regionalData);
-
-
   function changeIntensityTextColor(intensity: unknown) {
     switch (intensity) {
       case 'low':
@@ -84,6 +87,15 @@ export default function Home() {
     }
   }
 
+  const todayDateISO = new Date().toISOString();
+  const oneWeekAgo = getDateOneWeekAgo(todayDateISO);
+  const oneMonthAgo = getDateOneMonthAgo(todayDateISO);
+
+
+  // TODO: 
+  // Display API data for Month and Week -> did average will need to readjust table copmponent 
+  // Fix up sorting implementation on the UI 
+  // Create Detail Page design 
 
   return (
     <>
@@ -125,8 +137,10 @@ export default function Home() {
           </div>
         </div>
       </section>
-      <section className='carbon-density-regional-information'><h1>Test</h1>
-      </section>
+      <>
+        <RegionalSection regionalData={regionalData} />
+      </>
     </>
   )
 }
+

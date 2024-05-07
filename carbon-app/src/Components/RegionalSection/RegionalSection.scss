@@ -1,0 +1,64 @@
+.carbon-density-regional-container {
+  display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 20px;
+    justify-content: stretch;
+    width: 90%;
+
+    .carbon-density-pagination-container {
+      display: flex;
+    justify-content: center;
+    margin-top: 1rem;
+    gap: 1rem;
+    }
+
+  .carbon-density-regional-information{ 
+    background-color: white;
+    border-radius: 10px;
+    height: auto;
+    grid-column: span 9;
+  }
+  
+  .carbon-density-regional-side-panel {
+    background-color: white;
+    border-radius: 10px;
+    height: auto;
+    grid-column: span 3; 
+    width: auto;
+
+    .carbon-density-select-view{ 
+      list-style: none;
+      display: flex;
+      gap: 0.5rem;
+      justify-content: end;
+      margin-right: 1rem;
+
+      ul {
+        list-style-type: none;
+        display: flex;
+        gap: 0.5rem;
+      }
+    }
+  }
+}
+
+.carbon-density-card-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  .regional-card-data-info {
+    width: 60%;
+  }
+}
+
+.intensity-card-text {
+  margin-top: 0.5rem;
+  text-align: center;
+}
+
+.carbon-density-regional-container {
+  @media(max-width: 768px){
+    display: flex;
+    flex-direction: column;
+  }
+}

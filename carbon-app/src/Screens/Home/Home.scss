@@ -35,6 +35,10 @@
     }
   }
 
+  .regional-card-data-info {
+    width: 70%;
+  }
+
   .carbon-density-data-container {
     margin-top: 0.5rem;
     @media(min-width: 1020px){
@@ -83,13 +87,6 @@
       color: red;
     }
   }
-}
-
-.carbon-density-regional-information{ 
-  width: 90%;
-  background-color: white;
-  border-radius: 10px;
-  height: 704px;
 }
 
 .carbon-density-all-information-container {
