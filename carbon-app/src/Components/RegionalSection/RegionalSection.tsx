@@ -14,7 +14,7 @@ export default function RegionalSection({ regionalData }: any) {
   const [averageForecast, setAverageForecast] = useState(0);
   const [filteredData, setFilteredData] = useState<any[]>([]);
 
-
+  const allRegions = regionalData?.allRegions?.[0].regions
   const totalItemsRegions = regionalData?.allRegions?.[0]?.regions?.length;
   const todayDateISO = new Date().toISOString();
   let weekAgo = new Date();
@@ -27,6 +27,7 @@ export default function RegionalSection({ regionalData }: any) {
   const handlePeriodClick = (period: any) => {
     setSelectedPeriod(period);
   };
+
 
 
 
@@ -100,7 +101,7 @@ export default function RegionalSection({ regionalData }: any) {
     setCurrentMonthPage(newPage);
   };
 
-  const linkState = { selectedRegion };
+  const linkState = { selectedRegion, allRegions };
 
   
   return ( 
