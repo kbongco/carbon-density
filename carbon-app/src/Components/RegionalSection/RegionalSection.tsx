@@ -14,7 +14,7 @@ export default function RegionalSection({ regionalData }: any) {
   const [averageForecast, setAverageForecast] = useState(0);
   const [filteredData, setFilteredData] = useState<any[]>([]);
 
-
+  const allRegions = regionalData?.allRegions?.[0].regions
   const totalItemsRegions = regionalData?.allRegions?.[0]?.regions?.length;
   const todayDateISO = new Date().toISOString();
   let weekAgo = new Date();
@@ -30,16 +30,18 @@ export default function RegionalSection({ regionalData }: any) {
 
 
 
- const regionalColumns = [
+
+  const regionalColumns = [
     { key: 'dnoregion', label: 'Region' },
-    { key: 'intensity.forecast', label: 'Forecast'
+    {
+      key: 'intensity.forecast', label: 'Forecast'
     },
     { key: 'intensity.index', label: 'Index' },
-    { key: 'viewDetails', label: 'View Details'}
+    { key: 'viewDetails', label: 'View Details' }
   ];
 
   const specificRegions = [
-    {key: 'to', label: 'Date'},
+    { key: 'to', label: 'Date' },
     { key: 'intensity.forecast', label: 'Forecast' },
     { key: 'intensity.index', label: 'Index' },
   ]
@@ -100,12 +102,12 @@ export default function RegionalSection({ regionalData }: any) {
     setCurrentMonthPage(newPage);
   };
 
-  const linkState = { selectedRegion };
+  const linkState = { selectedRegion, allRegions };
 
-  
-  return ( 
+
+  return (
     <>
-     <div className='carbon-density-regional-container'>
+      <div className='carbon-density-regional-container'>
         <section className='carbon-density-regional-information'>
           <h1>Carbon Intensity by Region</h1>
           <Table data={regionalData?.allRegions?.[0]?.regions} columns={regionalColumns} handleViewDetails={handleViewDetails} />
@@ -127,22 +129,22 @@ export default function RegionalSection({ regionalData }: any) {
                 <h1>{selectedRegion.dnoregion}</h1>
                 {selectedPeriod === 'Current' && (
                   <div>
-                  <div className='carbon-density-card-container'>
-                    <div className='regional-card-data-info'>
-                      <DataCards>
-                        <p className='intensity-card-text'>Intensity Forecast</p>
-                        <p className='intensity-card-text'>{selectedRegion.intensity.forecast}</p>
-                      </DataCards>
-                    </div>
                     <div className='carbon-density-card-container'>
                       <div className='regional-card-data-info'>
                         <DataCards>
-                          <p className='intensity-card-text'>Intensity Index</p>
-                          <p className='intensity-card-text'>{selectedRegion.intensity.index}</p>
+                          <p className='intensity-card-text'>Intensity Forecast</p>
+                          <p className='intensity-card-text'>{selectedRegion.intensity.forecast}</p>
                         </DataCards>
                       </div>
+                      <div className='carbon-density-card-container'>
+                        <div className='regional-card-data-info'>
+                          <DataCards>
+                            <p className='intensity-card-text'>Intensity Index</p>
+                            <p className='intensity-card-text'>{selectedRegion.intensity.index}</p>
+                          </DataCards>
+                        </div>
+                      </div>
                     </div>
-                  </div>
                   </div>
                 )}
                 {selectedPeriod === 'Week' && (
@@ -155,33 +157,29 @@ export default function RegionalSection({ regionalData }: any) {
                 )}
                 {selectedPeriod === 'Month' && (
                   <>
-                    <p>Previous Month Carbon Intensity Average</p>                    
+                    <p>Previous Month Carbon Intensity Average</p>
                     <Table columns={specificRegions} data={filteredData.slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage)} />
                     <div className='carbon-density-pagination-container'>
-            <Pagination
-              totalItems={filteredData.length}
-              itemsPerPage={itemsPerPage}
-              currentPage={currentPage}
-              onPageChange={handlePageMonthChange}
-            />
-          </div>
-                    </>
+                      <Pagination
+                        totalItems={filteredData.length}
+                        itemsPerPage={itemsPerPage}
+                        currentPage={currentPage}
+                        onPageChange={handlePageMonthChange}
+                      />
+                    </div>
+                  </>
                 )}
               </>
             )}
-                {!selectedRegion && (
-      <p>Please select a region from the table to view the data!</p>
-    )}
-                  <Link
-                   to={`/regional-data/${regionId}`}
-                   state={linkState} // Pass the object with the state property
-        // to={{
-        //   pathname: `/regional-data/${regionId}`,
-        //   state: linkState, // Pass the object with the state property
-        // }}
-      >
-        Go to region
-      </Link>
+            {!selectedRegion && (
+              <p>Please select a region from the table to view the data!</p>
+            )}
+            <Link
+              to={`/regional-data/${regionId}`}
+              state={linkState}
+            >
+              Go to region
+            </Link>
           </div>
         </section>
       </div>
