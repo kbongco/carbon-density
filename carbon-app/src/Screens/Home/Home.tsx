@@ -107,7 +107,7 @@ export default function Home() {
                 Carbon Intensity Data for {currentDate}
               </p>
               <div className='carbon-density-graph'>
-                <DataChart todayData={todayData} />
+              <DataChart chartData={todayData.generationData} />
               </div>
             </div>
             <div className='carbon-density-data-container'>
