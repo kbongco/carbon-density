@@ -6,19 +6,20 @@ import axios from "axios";
 import calculateAverage from "../../utils/calculateAverage";
 import getDateOneMonthAgo from "../../utils/calculateDateMonth";
 import './RegionalSection.scss';
-import { faSortDown } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-// import { regionalColumns, specificRegions } from "../../constants/constants";
 
 export default function RegionalSection({ regionalData }: any) {
   const [selectedRegion, setSelectedRegion] = useState<any>(null);
   const [selectedPeriod, setSelectedPeriod] = useState('Current');
   const [averageForecast, setAverageForecast] = useState(0);
+  const [filteredData, setFilteredData] = useState<any[]>([]);
+
+
   const totalItemsRegions = regionalData?.allRegions?.[0]?.regions?.length;
   const todayDateISO = new Date().toISOString();
   let weekAgo = new Date();
   weekAgo.setDate(weekAgo.getDate() - 7);
   const [currentPage, setCurrentPage] = useState(0);
+  const [currentMonthPage, setCurrentMonthPage] = useState(0);
   const itemsPerPage = 6;
   const regionId = selectedRegion?.regionid;
 
@@ -37,6 +38,7 @@ export default function RegionalSection({ regionalData }: any) {
   ];
 
   const specificRegions = [
+    {key: 'to', label: 'Date'},
     { key: 'intensity.forecast', label: 'Forecast' },
     { key: 'intensity.index', label: 'Index' },
   ]
@@ -70,6 +72,7 @@ export default function RegionalSection({ regionalData }: any) {
         console.log(filteredData, 'bro');
         const averageIntensity = calculateAverage(filteredData);
         setAverageForecast(Math.floor(averageIntensity));
+        setFilteredData(filteredData);
       } catch (error) {
         console.error('Error fetching data:', error);
       }
@@ -85,13 +88,19 @@ export default function RegionalSection({ regionalData }: any) {
     console.log(regionData);
     setSelectedPeriod('Current');
     setAverageForecast(0);
-    // Additional logic to show details for the selected region
   };
 
 
-  const handlePageChange = (newPage: number) => {
+  const handlePageChange = (newPage: number, data: any[]) => {
     setCurrentPage(newPage);
   };
+
+  const handlePageMonthChange = (newPage: number, data: any[]) => {
+    setCurrentMonthPage(newPage);
+  };
+
+
+  
   return ( 
     <>
      <div className='carbon-density-regional-container'>
@@ -144,26 +153,24 @@ export default function RegionalSection({ regionalData }: any) {
                 )}
                 {selectedPeriod === 'Week' && (
                   <>
-                    <p>Weekly Carbon Intensity Average</p>
-                    <DataCards>
-                      <p className='intensity-card-text'>Week Average Intensity Forecast</p>
-                      <p>{averageForecast}</p>
-                    </DataCards>
                     <div>
-                      <Table data={selectedRegion} columns={specificRegions} />
-                      {/* <Table
-                                  allRegions={regionalData?.allRegions?.[0]?.regions?.slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage)}/> */}
+                      <Table columns={specificRegions} data={filteredData} />
                     </div>
                   </>
 
                 )}
                 {selectedPeriod === 'Month' && (
                   <>
-                  <p>Previous Month Carbon Intensity Average</p>                    
-                  <DataCards>
-                  <p className='intensity-card-text'>Monthly Average Intensity Forecast</p>
-                  <p>{averageForecast}</p>
-                    </DataCards>
+                    <p>Previous Month Carbon Intensity Average</p>                    
+                    <Table columns={specificRegions} data={filteredData.slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage)} />
+                    <div className='carbon-density-pagination-container'>
+            <Pagination
+              totalItems={filteredData.length}
+              itemsPerPage={itemsPerPage}
+              currentPage={currentPage}
+              onPageChange={handlePageMonthChange}
+            />
+          </div>
                     </>
                 )}
               </>
