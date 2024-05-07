@@ -106,15 +106,7 @@ export default function RegionalSection({ regionalData }: any) {
      <div className='carbon-density-regional-container'>
         <section className='carbon-density-regional-information'>
           <h1>Carbon Intensity by Region</h1>
-          <Table data={regionalData?.allRegions?.[0]?.regions?.slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage)} columns={regionalColumns} handleViewDetails={handleViewDetails} />
-          <div className='carbon-density-pagination-container'>
-            <Pagination
-              totalItems={totalItemsRegions}
-              itemsPerPage={itemsPerPage}
-              currentPage={currentPage}
-              onPageChange={handlePageChange}
-            />
-          </div>
+          <Table data={regionalData?.allRegions?.[0]?.regions} columns={regionalColumns} handleViewDetails={handleViewDetails} />
         </section>
         <section className='carbon-density-regional-side-panel'>
           <h1>View Regional Data</h1>
