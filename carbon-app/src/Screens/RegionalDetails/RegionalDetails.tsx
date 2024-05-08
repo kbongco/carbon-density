@@ -1,13 +1,17 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useLocation } from 'react-router-dom';
 import DisplayBackground from '../../Components/DisplayBackground/DisplayBackground';
 import DataChart from "../../Components/Chart";
 import DataCards from "../../Components/DataCards/DataCards";
 import Select from '../../Components/Select/Select';
 import './RegionalDetails.scss';
+import { useRegionCarbonIntensity } from '../../Context/RegionalCarbonIntensityContext';
+
 
 export default function RegionalDetails() {
   const [selectedValue, setSelectedValue] = useState('');
+  const { data } = useRegionCarbonIntensity();
+  console.log(data);
   const location = useLocation();
   const state = location.state;
   const getDate = new Date(); // Current date and time
@@ -109,3 +113,5 @@ export default function RegionalDetails() {
     </>
   )
 }
+
+
