@@ -10,7 +10,7 @@ export const CarbonRegionalProvider= ({ children }: { children: React.ReactNode 
     const fetchData = async () => {
       try {
         const response = await axios.get('https://api.carbonintensity.org.uk/regional');
-        setData(response.data); // Store the data in state
+        setData(response.data); 
       } catch (error) {
         console.error('Error fetching data:', error);
       }
