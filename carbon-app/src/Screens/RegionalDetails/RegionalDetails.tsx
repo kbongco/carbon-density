@@ -40,22 +40,41 @@ export default function RegionalDetails() {
 
   console.log(similarIndex);
 
+  function changeIntensityTextColor(intensity: unknown) {
+    switch (intensity) {
+      case 'low':
+        return 'low-intensity';
+      case 'moderate':
+        return 'moderate-intensity';
+      case 'high':
+        return 'high-intensity';
+      default:
+        return 'black';
+    }
+  }
+
   // TODO for tomorrow:
-  // set up UI for the regional page
   // fix pagination component
-  // Create drop down which allows user to switch regions
+  // Get Regional Data and get the select dropdown to work properly
+  // Anything date related tomorrow 
   // install date picker
   return (
     <>
       <DisplayBackground>
         <div className='carbon-density-select-region'>
           <h1>Select Region</h1>
+
           <Select label='Choose an option' options={regionOptions} value={selectedValue} onChange={handleChange} />
+        </div>
+        <div>
+          <Link to='/'>
+            Go back Home
+          </Link>
         </div>
       </DisplayBackground>
       <DisplayBackground>
         <h1>{state.selectedRegion.dnoregion} </h1>
-        <div className='carbon-density-graph-container'>
+        <div className='carbon-density-regional-graph-container'>
           <div className='carbon-density-all-information-container'>
             <div className='carbon-density-graph-information'>
               <p className='carbon-density-text'> Carbon Intensity Data for {currentDate}</p>
@@ -63,43 +82,44 @@ export default function RegionalDetails() {
                 <DataChart chartData={state.selectedRegion} />
               </div>
             </div>
-            <div className='carbon-density-data-container'>
-              <div className='carbon-density-information-container'>
-                <div className='carbon-density-card-container'>
-                  <DataCards>
-                    <p className='carbon-forecast-header'>Forecast</p>
-                    <p>{state.selectedRegion.intensity.forecast}</p>
-                  </DataCards>
-                </div>
-                <div className='carbon-density-card-container'>
-                  <DataCards>
-                    <p className='carbon-forecast-header'>Index</p>
-                    <p>{state.selectedRegion.intensity.index}</p>
-                  </DataCards>
+            <div className='carbon-intensity-regional-data-container'>
+              <div className='carbon-intensity-regional-data'>
+                <div className='carbon-intensity-regional-information-container'>
+                  <div className='carbon-intensity-regional-card-container'>
+                    <DataCards>
+                      <p className='carbon-intensity-forecast-header'>Forecast</p>
+                      <p className='carbon-intensity-regional-forecast-text'>{state.selectedRegion.intensity.forecast}</p>
+                    </DataCards>
+                  </div>
+                  <div className='carbon-intensity-regional-card-container'>
+                    <DataCards>
+                      <p className='carbon-intensity-forecast-header'>Index</p>
+                      <p className='carbon-intensity-regional-forecast-text'>{state.selectedRegion.intensity.index}</p>
+                    </DataCards>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </DisplayBackground>
-      <div>
+      <div className='carbon-intensity-regional-information'>
         <DisplayBackground>
           <h1>View Carbon Intensity During a specific date</h1>
           hijkol;udfsahjkl;adsbhjknl.adszbhgjkl
         </DisplayBackground>
         <DisplayBackground>
-          <h1>Top 3 Regions with similar Carbon Index</h1>
+          <h1>Regions with similar Carbon Index</h1>
           <div className='carbon-intensity-similar-container'>
             {similarIndex.slice(0, 3).map((similar: any) => (
               <div className='carbon-intensity'>
                 <DataCards key={similar.regionid}>
                   <p className='carbon-intensity-similar-name'>{similar.dnoregion}</p>
                   <div className='carbon-intensity-similar-link'>
-                  <p className='carbon-intensity-similar-index'>{similar.intensity.index}</p>
-                  <Link to={`/regional-data/${similar?.regionid}`}>
-                    View Region Details
+                    <Link to={`/regional-data/${similar?.regionid}`}>
+                      View Region Details
                     </Link>
-                    </div>
+                  </div>
                 </DataCards>
               </div>
             ))}
