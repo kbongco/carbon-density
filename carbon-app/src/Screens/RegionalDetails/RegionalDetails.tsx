@@ -103,7 +103,7 @@ export default function RegionalDetails() {
           </div>
         </div>
       </DisplayBackground>
-      <div className='carbon-intesntiy-regional-information'>
+      <div className='carbon-intensity-regional-information'>
         <DisplayBackground>
           <h1>View Carbon Intensity During a specific date</h1>
           hijkol;udfsahjkl;adsbhjknl.adszbhgjkl

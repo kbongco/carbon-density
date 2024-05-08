@@ -49,19 +49,17 @@
   }
 }
 
-.carbon-intesntiy-regional-information {
+.carbon-intensity-regional-information {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 1rem;
 
   @media screen and (min-width: 768px){
-    .carbon-intensity-regional-information {
       display: grid;
       grid-template-columns: repeat(12, 1fr);
       gap: 20px;
       justify-content: stretch;
       width: 90%;
-    }
   }
 }
