@@ -2,6 +2,32 @@
   display: flex;
   gap: 1rem;
   .carbon-density-information-container {
-    width: 50%;
+    display: flex;
+    width: 70%;
+  }
+}
+
+.carbon-intensity-similar-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  .carbon-intensity {
+    width: 70%;
+
+    .carbon-intensity-similar-name {
+      margin-top: 0;
+      text-align: center;
+    }
+
+    .carbon-intensity-similar-link {
+      display: flex;
+    justify-content: center;
+    gap: 1rem;
+    .carbon-intensity-similar-index {
+      margin-top: 0;
+    }
+    }
+
   }
 }

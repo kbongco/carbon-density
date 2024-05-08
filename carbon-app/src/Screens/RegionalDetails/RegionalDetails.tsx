@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import DisplayBackground from '../../Components/DisplayBackground/DisplayBackground';
 import DataChart from "../../Components/Chart";
 import DataCards from "../../Components/DataCards/DataCards";
@@ -33,6 +33,12 @@ export default function RegionalDetails() {
     value: region.regionid,
     label: region.dnoregion
   }))
+
+  const similarIndex = state.allRegions.filter((region: any) => (
+    region.intensity.index === state.selectedRegion.intensity.index
+  ));
+
+  console.log(similarIndex);
 
   // TODO for tomorrow:
   // set up UI for the regional page
@@ -76,6 +82,30 @@ export default function RegionalDetails() {
           </div>
         </div>
       </DisplayBackground>
+      <div>
+        <DisplayBackground>
+          <h1>View Carbon Intensity During a specific date</h1>
+          hijkol;udfsahjkl;adsbhjknl.adszbhgjkl
+        </DisplayBackground>
+        <DisplayBackground>
+          <h1>Top 3 Regions with similar Carbon Index</h1>
+          <div className='carbon-intensity-similar-container'>
+            {similarIndex.slice(0, 3).map((similar: any) => (
+              <div className='carbon-intensity'>
+                <DataCards key={similar.regionid}>
+                  <p className='carbon-intensity-similar-name'>{similar.dnoregion}</p>
+                  <div className='carbon-intensity-similar-link'>
+                  <p className='carbon-intensity-similar-index'>{similar.intensity.index}</p>
+                  <Link to={`/regional-data/${similar?.regionid}`}>
+                    View Region Details
+                    </Link>
+                    </div>
+                </DataCards>
+              </div>
+            ))}
+          </div>
+        </DisplayBackground>
+      </div>
     </>
   )
 }
