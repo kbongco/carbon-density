@@ -116,11 +116,26 @@ export default function RegionalSection({ regionalData }: any) {
           <h1>View Regional Data</h1>
           <div className='carbon-density-select-view'>
             <ul>
-              <li onClick={() => handlePeriodClick('Current')}>Current</li>
+              <li
+                className={selectedPeriod === 'Current' ? 'selected' : 'unselected'}
+                onClick={() => handlePeriodClick('Current')}
+              >
+                Current
+              </li>
               |
-              <li onClick={() => handlePeriodClick('Week')}>Week</li>
+              <li
+                className={selectedPeriod === 'Week' ? 'selected' : 'unselected'}
+                onClick={() => handlePeriodClick('Week')}
+              >
+                Week
+              </li>
               |
-              <li onClick={() => handlePeriodClick('Month')}>Month</li>
+              <li
+                className={selectedPeriod === 'Month' ? 'selected' : 'unselected'}
+                onClick={() => handlePeriodClick('Month')}
+              >
+                Month
+              </li>
             </ul>
           </div>
           <div className='carbon-density-text'>
@@ -175,8 +190,14 @@ export default function RegionalSection({ regionalData }: any) {
               <p>Please select a region from the table to view the data!</p>
             )}
             <Link
-              to={`/regional-data/${regionId}`}
+              className={selectedRegion ? '' : 'hidden-link'}
+              to={selectedRegion ? `/regional-data/${selectedRegion.regionid}` : '#'}
               state={linkState}
+              onClick={(e) => {
+                if (!selectedRegion) {
+                  e.preventDefault();
+                }
+              }}
             >
               Go to region
             </Link>

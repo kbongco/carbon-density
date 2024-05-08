@@ -38,6 +38,20 @@
         display: flex;
         gap: 0.5rem;
       }
+
+      .selected {
+        text-decoration: underline;
+      }
+      
+      .unselected {
+        text-decoration: none;
+      }
+    }
+  }
+
+  .carbon-density-text {
+    .hidden-link {
+      display: none;
     }
   }
 }

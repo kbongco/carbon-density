@@ -1,17 +1,34 @@
-.carbon-density-data-container {
-  display: flex;
-  gap: 1rem;
-  .carbon-density-information-container {
+.carbon-intensity-regional-information-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.5rem;
+  justify-items: center;
+
+  @media screen and (min-width: 1020px) {
     display: flex;
-    width: 70%;
+    flex-direction: column;
+  }
+
+  .carbon-intensity-regional-card-container {
+    width: 168px;
+    @media screen and (min-width: 1020px){
+      width: 268px;
+    }
+
+    .carbon-intensity-forecast-header {
+      margin-bottom: 0;
+    }
   }
 }
+
 
 .carbon-intensity-similar-container {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 1rem;
+  padding: 1rem;
+
   .carbon-intensity {
     width: 70%;
 
@@ -29,5 +46,22 @@
     }
     }
 
+  }
+}
+
+.carbon-intesntiy-regional-information {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+
+  @media screen and (min-width: 768px){
+    .carbon-intensity-regional-information {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 20px;
+      justify-content: stretch;
+      width: 90%;
+    }
   }
 }
