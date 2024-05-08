@@ -17,7 +17,7 @@ export default function RegionalDetails() {
     day: 'numeric'
   };
   const currentDate = getDate.toLocaleDateString('en-US', options);
-  const chartData = state.selectedRegion.generationmix;
+  const chartData = state?.selectedRegion?.generationmix;
   console.log(chartData);
   console.log(location);
 
@@ -95,7 +95,7 @@ export default function RegionalDetails() {
                 <DataCards key={similar.regionid}>
                   <p className='carbon-intensity-similar-name'>{similar.dnoregion}</p>
                   <div className='carbon-intensity-similar-link'>
-                  <p className='carbon-intensity-similar-index'>{similar.intensity.index}</p>
+                  <p className='carbon-intensity-similar-index'>{similar?.intensity?.index}</p>
                   <Link to={`/regional-data/${similar?.regionid}`}>
                     View Region Details
                     </Link>
