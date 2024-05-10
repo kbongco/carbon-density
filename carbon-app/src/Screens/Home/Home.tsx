@@ -91,11 +91,11 @@ export default function Home() {
   const oneWeekAgo = getDateOneWeekAgo(todayDateISO);
   const oneMonthAgo = getDateOneMonthAgo(todayDateISO);
 
-
-  // TODO: 
-  // Display API data for Month and Week -> did average will need to readjust table copmponent 
-  // Fix up sorting implementation on the UI 
-  // Create Detail Page design 
+  // Major priorities for tomorrow:
+  // Fix pagination component
+  // Start working on date functionality
+  // Clean up styles
+  
 
   return (
     <>

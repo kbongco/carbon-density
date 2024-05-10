@@ -9,6 +9,7 @@ import { Options } from "../../interfaces/component-interfaces";
 import { dateOptions } from "../../constants/constants";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { Region } from "../../interfaces/regional-interface";
 
 export default function RegionalDetails() {
   const [selectedValue, setSelectedValue] = useState<any>('');
@@ -31,19 +32,17 @@ export default function RegionalDetails() {
 
   const handleChange = (value: number) => {
     setSelectedValue(value);
-    const matchedRegion = state.allRegions.find((region: any) => region.regionid == value);
+    const matchedRegion = state.allRegions.find((region: Region) => region.regionid == value);
     setSelectedRegion(matchedRegion);
   };
 
-  const regionOptions = state?.allRegions?.map((region: any) => ({
+  const regionOptions = state?.allRegions?.map((region: Region) => ({
     value: region?.regionid,
     label: region?.dnoregion
   }))
   console.log(regionOptions);
 
-  const similarIndex = state?.allRegions?.filter((region: any) => (
-    region?.intensity?.index === state?.selectedRegion?.intensity?.index
-  ));
+
 
   const handleDateChange = (range: any) => {
     const [startDate, endDate] = range;
@@ -69,14 +68,11 @@ export default function RegionalDetails() {
     // Perform filtering logic based on selectedRegion data
     if (selectedRegion) {
       console.log(selectedRegion, 'sel')
-      const filteredRegion = state?.allRegions.find((region: any) => region.regionid == selectedRegion);
+      const filteredRegion = state?.allRegions.find((region: Region) => region.regionid == selectedRegion);
       console.log(filteredRegion, 'fil');
       // const filteredRegion = /* Your filtering logic here */;
       setCurrentRegion(filteredRegion);
     }
-
-    console.log(selectedRegion, 'test-me')
-    console.log(selectedRegion?.regionid, 'test-me-when-youre-free');
   }, [selectedRegion]);
 
   console.log(currentRegion, 'eh')
