@@ -28,11 +28,6 @@ export default function RegionalDetails() {
   const chartData = state?.selectedRegion?.generationmix;
   const { regionid } = useParams();
   const [currentRegion, setCurrentRegion] = useState(null);
-  console.log(regionid, 'test')
-  console.log(chartData);
-  console.log(location);
-
-  console.log('test');
 
   const handleChange = (value: number) => {
     setSelectedValue(value);
@@ -56,9 +51,6 @@ export default function RegionalDetails() {
     setEndDate(endDate);
   };
 
-
-
-  console.log(similarIndex);
 
   function changeIntensityTextColor(intensity: unknown) {
     switch (intensity) {
@@ -98,8 +90,7 @@ export default function RegionalDetails() {
     <>
       <DisplayBackground>
         <div className='carbon-density-select-region'>
-          {/* <h1>Select Region</h1> */}
-          <h1>Regional Details for Region ID: {regionid}</h1>
+          <h1>Select Region</h1>
 
           <Select label='Choose an option' options={regionOptions} value={selectedValue} onChange={handleChange} />
         </div>
@@ -167,35 +158,6 @@ export default function RegionalDetails() {
             </div>
           </div>
         </div> </>}
-        {/* <h1>{state?.selectedRegion?.dnoregion} </h1>
-        <div className='carbon-density-regional-graph-container'>
-          <div className='carbon-density-all-information-container'>
-            <div className='carbon-density-graph-information'>
-              <p className='carbon-density-text'> Carbon Intensity Data for {currentDate}</p>
-              <div className='carbon-density-graph'>
-                <DataChart chartData={state?.selectedRegion} />
-              </div>
-            </div>
-            <div className='carbon-intensity-regional-data-container'>
-              <div className='carbon-intensity-regional-data'>
-                <div className='carbon-intensity-regional-information-container'>
-                  <div className='carbon-intensity-regional-card-container'>
-                    <DataCards>
-                      <p className='carbon-intensity-forecast-header'>Forecast</p>
-                      <p className='carbon-intensity-regional-forecast-text'>{state?.selectedRegion?.intensity?.forecast}</p>
-                    </DataCards>
-                  </div>
-                  <div className='carbon-intensity-regional-card-container'>
-                    <DataCards>
-                      <p className='carbon-intensity-forecast-header'>Index</p>
-                      <p className='carbon-intensity-regional-forecast-text'>{state?.selectedRegion?.intensity?.index}</p>
-                    </DataCards>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div> */}
       </DisplayBackground>
       <div className='carbon-intensity-regional-information'>
         <DisplayBackground>
@@ -211,39 +173,6 @@ export default function RegionalDetails() {
               startDate={startDate}
               endDate={endDate}
               selectsRange />
-          </div>
-        </DisplayBackground>
-        <DisplayBackground>
-          <h1>Regions with similar Carbon Index</h1>
-          <div className='carbon-intensity-similar-container'>
-            {similarIndex?.slice(0, 3).map((similar: any) => (
-              <div className='carbon-intensity' key={similar?.regionid}>
-                <DataCards>
-                  <p className='carbon-intensity-similar-name'>{similar?.dnoregion}</p>
-                  <div className='carbon-intensity-similar-link'>
-                    {/* Pass state along with the URL */}
-                    <Link to={{
-                      pathname: `/regional-data/${similar?.regionid}`,
-                      // Pass the state object
-                    }}
-                      state={state}>
-                      View Region Details
-                    </Link>
-                  </div>
-                </DataCards>
-              </div>
-            ))}
-            {similarIndex?.slice(0, 3).map((similar: any) => (
-              <div className='carbon-intensity'>
-                <DataCards key={similar?.regionid}>
-                  <p className='carbon-intensity-similar-name'>{similar?.dnoregion}</p>
-                  <div className='carbon-intensity-similar-link'>
-                    <Link to={`/regional-data/${regionid}`}>View Region Details</Link>
-
-                  </div>
-                </DataCards>
-              </div>
-            ))}
           </div>
         </DisplayBackground>
       </div>
