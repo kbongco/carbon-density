@@ -10,11 +10,14 @@ import { dateOptions } from "../../constants/constants";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { Region } from "../../interfaces/regional-interface";
+import { calculateStartDate, convertDateISO } from '../../utils/calculateStartDate';
 
 export default function RegionalDetails() {
   const [selectedValue, setSelectedValue] = useState<any>('');
   const [selectedRegion, setSelectedRegion] = useState<any>(null);
   const [date, setDate] = useState<any>(new Date());
+  const [quickSelectDateStart, setquickSelectDateStart] = useState<any>(null);
+  const [quickSelectDateValue, setQuickSelectDateValue] = useState<any>('');
   const [startDate, setStartDate] = useState();
   const [endDate, setEndDate] = useState();
   const location = useLocation();
@@ -50,6 +53,14 @@ export default function RegionalDetails() {
     setEndDate(endDate);
   };
 
+  const quickSelectDateChange = (value: string) => {
+    const quickDate = calculateStartDate(value);
+    const finalDate = convertDateISO(quickDate);
+    setquickSelectDateStart(finalDate);
+    setQuickSelectDateValue(value);
+    console.log(quickSelectDateStart);
+  }
+
 
   function changeIntensityTextColor(intensity: unknown) {
     switch (intensity) {
@@ -65,23 +76,15 @@ export default function RegionalDetails() {
   }
 
   useEffect(() => {
-    // Perform filtering logic based on selectedRegion data
     if (selectedRegion) {
       console.log(selectedRegion, 'sel')
       const filteredRegion = state?.allRegions.find((region: Region) => region.regionid == selectedRegion);
-      console.log(filteredRegion, 'fil');
-      // const filteredRegion = /* Your filtering logic here */;
       setCurrentRegion(filteredRegion);
     }
   }, [selectedRegion]);
 
   console.log(currentRegion, 'eh')
 
-  // TODO for tomorrow:
-  // fix pagination component
-  // Get Regional Data and get the select dropdown to work properly
-  // Anything date related tomorrow 
-  // install date picker
   return (
     <>
       <DisplayBackground>
@@ -158,7 +161,7 @@ export default function RegionalDetails() {
       <div className='carbon-intensity-regional-information'>
         <DisplayBackground>
           <h1>View Carbon Intensity During a specific date</h1>
-          <Select label="Quick Select a range" options={dateOptions} value={selectedValue} onChange={handleChange} />
+          <Select label="Quick Select a range" options={dateOptions} value={quickSelectDateValue  } onChange={quickSelectDateChange} />
 
           <div>
             <p>Select a date here </p>
