@@ -12,7 +12,7 @@ import "react-datepicker/dist/react-datepicker.css";
 
 export default function RegionalDetails() {
   const [selectedValue, setSelectedValue] = useState<any>('');
-  const [selectedRegion, setSelectedRegion] = useState(null);
+  const [selectedRegion, setSelectedRegion] = useState<any>(null);
   const [date, setDate] = useState<any>(new Date());
   const [startDate, setStartDate] = useState();
   const [endDate, setEndDate] = useState();
@@ -27,8 +27,8 @@ export default function RegionalDetails() {
   const currentDate = getDate.toLocaleDateString('en-US', options);
   const chartData = state?.selectedRegion?.generationmix;
   const { regionid } = useParams();
-  const [currentRegion, setCurrentRegion] = useState(null); 
-  console.log(regionid,'test')
+  const [currentRegion, setCurrentRegion] = useState(null);
+  console.log(regionid, 'test')
   console.log(chartData);
   console.log(location);
 
@@ -36,7 +36,7 @@ export default function RegionalDetails() {
 
   const handleChange = (value: number) => {
     setSelectedValue(value);
-    const matchedRegion = state.allRegions.find((region:any) => region.regionid == value);
+    const matchedRegion = state.allRegions.find((region: any) => region.regionid == value);
     setSelectedRegion(matchedRegion);
   };
 
@@ -50,7 +50,7 @@ export default function RegionalDetails() {
     region?.intensity?.index === state?.selectedRegion?.intensity?.index
   ));
 
-  const handleDateChange = (range:any) => {
+  const handleDateChange = (range: any) => {
     const [startDate, endDate] = range;
     setStartDate(startDate);
     setEndDate(endDate);
@@ -76,16 +76,18 @@ export default function RegionalDetails() {
   useEffect(() => {
     // Perform filtering logic based on selectedRegion data
     if (selectedRegion) {
-      console.log(selectedRegion,'sel')
+      console.log(selectedRegion, 'sel')
       const filteredRegion = state?.allRegions.find((region: any) => region.regionid == selectedRegion);
       console.log(filteredRegion, 'fil');
       // const filteredRegion = /* Your filtering logic here */;
-      console.log(currentRegion, 'testes')
       setCurrentRegion(filteredRegion);
     }
+
+    console.log(selectedRegion, 'test-me')
+    console.log(selectedRegion?.regionid, 'test-me-when-youre-free');
   }, [selectedRegion]);
 
-  console.log(currentRegion)
+  console.log(currentRegion, 'eh')
 
   // TODO for tomorrow:
   // fix pagination component
@@ -108,7 +110,35 @@ export default function RegionalDetails() {
         </div>
       </DisplayBackground>
       <DisplayBackground>
-        <h1>{state?.selectedRegion?.dnoregion} </h1>
+        {selectedRegion !== null ? <><h1>{selectedRegion?.dnoregion}</h1>
+        <div className='carbon-density-regional-graph-container'>
+          <div className='carbon-density-all-information-container'>
+            <div className='carbon-density-graph-information'>
+              <p className='carbon-density-text'> Carbon Intensity Data for {currentDate}</p>
+              <div className='carbon-density-graph'>
+                <DataChart chartData={selectedRegion} />
+              </div>
+            </div>
+            <div className='carbon-intensity-regional-data-container'>
+              <div className='carbon-intensity-regional-data'>
+                <div className='carbon-intensity-regional-information-container'>
+                  <div className='carbon-intensity-regional-card-container'>
+                    <DataCards>
+                      <p className='carbon-intensity-forecast-header'>Forecast</p>
+                      <p className='carbon-intensity-regional-forecast-text'>{selectedRegion?.intensity?.forecast}</p>
+                    </DataCards>
+                  </div>
+                  <div className='carbon-intensity-regional-card-container'>
+                    <DataCards>
+                      <p className='carbon-intensity-forecast-header'>Index</p>
+                      <p className='carbon-intensity-regional-forecast-text'>{selectedRegion?.intensity?.index}</p>
+                    </DataCards>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div> </> : <><h1>{state?.selectedRegion?.dnoregion} </h1>
         <div className='carbon-density-regional-graph-container'>
           <div className='carbon-density-all-information-container'>
             <div className='carbon-density-graph-information'>
@@ -136,7 +166,36 @@ export default function RegionalDetails() {
               </div>
             </div>
           </div>
-        </div>
+        </div> </>}
+        {/* <h1>{state?.selectedRegion?.dnoregion} </h1>
+        <div className='carbon-density-regional-graph-container'>
+          <div className='carbon-density-all-information-container'>
+            <div className='carbon-density-graph-information'>
+              <p className='carbon-density-text'> Carbon Intensity Data for {currentDate}</p>
+              <div className='carbon-density-graph'>
+                <DataChart chartData={state?.selectedRegion} />
+              </div>
+            </div>
+            <div className='carbon-intensity-regional-data-container'>
+              <div className='carbon-intensity-regional-data'>
+                <div className='carbon-intensity-regional-information-container'>
+                  <div className='carbon-intensity-regional-card-container'>
+                    <DataCards>
+                      <p className='carbon-intensity-forecast-header'>Forecast</p>
+                      <p className='carbon-intensity-regional-forecast-text'>{state?.selectedRegion?.intensity?.forecast}</p>
+                    </DataCards>
+                  </div>
+                  <div className='carbon-intensity-regional-card-container'>
+                    <DataCards>
+                      <p className='carbon-intensity-forecast-header'>Index</p>
+                      <p className='carbon-intensity-regional-forecast-text'>{state?.selectedRegion?.intensity?.index}</p>
+                    </DataCards>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div> */}
       </DisplayBackground>
       <div className='carbon-intensity-regional-information'>
         <DisplayBackground>
@@ -145,41 +204,41 @@ export default function RegionalDetails() {
 
           <div>
             <p>Select a date here </p>
-            
+
             <DatePicker
               selected={startDate}
-        onChange={handleDateChange}
-        startDate={startDate}
-        endDate={endDate}
-        selectsRange />
-    </div>
+              onChange={handleDateChange}
+              startDate={startDate}
+              endDate={endDate}
+              selectsRange />
+          </div>
         </DisplayBackground>
         <DisplayBackground>
           <h1>Regions with similar Carbon Index</h1>
           <div className='carbon-intensity-similar-container'>
-          {similarIndex?.slice(0, 3).map((similar: any) => (
-  <div className='carbon-intensity' key={similar?.regionid}>
-    <DataCards>
-      <p className='carbon-intensity-similar-name'>{similar?.dnoregion}</p>
-      <div className='carbon-intensity-similar-link'>
-        {/* Pass state along with the URL */}
-        <Link to={{
-          pathname: `/regional-data/${similar?.regionid}`,
-  // Pass the state object
-                  }}
-                  state={state}>
-          View Region Details
-        </Link>
-      </div>
-    </DataCards>
-  </div>
-))}
+            {similarIndex?.slice(0, 3).map((similar: any) => (
+              <div className='carbon-intensity' key={similar?.regionid}>
+                <DataCards>
+                  <p className='carbon-intensity-similar-name'>{similar?.dnoregion}</p>
+                  <div className='carbon-intensity-similar-link'>
+                    {/* Pass state along with the URL */}
+                    <Link to={{
+                      pathname: `/regional-data/${similar?.regionid}`,
+                      // Pass the state object
+                    }}
+                      state={state}>
+                      View Region Details
+                    </Link>
+                  </div>
+                </DataCards>
+              </div>
+            ))}
             {similarIndex?.slice(0, 3).map((similar: any) => (
               <div className='carbon-intensity'>
                 <DataCards key={similar?.regionid}>
                   <p className='carbon-intensity-similar-name'>{similar?.dnoregion}</p>
                   <div className='carbon-intensity-similar-link'>
-                  <Link to={`/regional-data/${regionid}`}>View Region Details</Link>
+                    <Link to={`/regional-data/${regionid}`}>View Region Details</Link>
 
                   </div>
                 </DataCards>
