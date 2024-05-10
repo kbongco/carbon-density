@@ -176,7 +176,7 @@ export default function RegionalSection({ regionalData }: any) {
                     <Table columns={specificRegions} data={filteredData.slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage)} />
                     <div className='carbon-density-pagination-container'>
                       <Pagination
-                        totalItems={filteredData.length}
+                        totalItems={filteredData?.length}
                         itemsPerPage={itemsPerPage}
                         currentPage={currentPage}
                         onPageChange={handlePageMonthChange}
