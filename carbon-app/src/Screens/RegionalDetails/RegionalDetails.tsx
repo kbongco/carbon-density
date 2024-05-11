@@ -84,7 +84,7 @@ export default function RegionalDetails() {
     getDataByDate(finalDate, currentDateISOTime, selectedRegionid)
       .then(data => {
         setSelectedDateData(data);
-        console.log(data.data.generationmix);
+        // console.log(data.data.generationmix);
       })
       .catch(error => {
         console.error(error);
