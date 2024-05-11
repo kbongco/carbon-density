@@ -35,6 +35,7 @@ export default function Table({ data, columns, handleViewDetails }: any) {
 
     
   const sortData = () => {
+
     const sorted = [...data].sort((a, b) => a.intensity.forecast - b.intensity.forecast);
     setSortedData(sorted);
     console.log(sorted);

@@ -11,6 +11,8 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { Region } from "../../interfaces/regional-interface";
 import { calculateStartDate, convertDateISO } from '../../utils/calculateStartDate';
+import getDataByDate from '../../services/getIntensityByDate';
+import Table from "../../Components/Table/Table";
 
 export default function RegionalDetails() {
   const [selectedValue, setSelectedValue] = useState<any>('');
@@ -20,31 +22,48 @@ export default function RegionalDetails() {
   const [quickSelectDateValue, setQuickSelectDateValue] = useState<any>('');
   const [startDate, setStartDate] = useState();
   const [endDate, setEndDate] = useState();
+  const [selectedDateData, setSelectedDateData] = useState<any>(null);
   const location = useLocation();
   const state = location.state;
+  const [selectedRegionid, setSelectedRegionId] = useState<any>(() => state.selectedRegion.regionid);
+
+  console.log(state.selectedRegion.regionid,'loco');
   const getDate = new Date(); // Current date and time
+  const currentDateISOTime = new Date().toISOString();
   const options: Intl.DateTimeFormatOptions = {
     year: 'numeric',
     month: 'long', // Full month name
     day: 'numeric'
   };
-  const currentDate = getDate.toLocaleDateString('en-US', options);
+  const currentDateToDisplay = getDate.toLocaleDateString('en-US', options);
   const chartData = state?.selectedRegion?.generationmix;
   const { regionid } = useParams();
   const [currentRegion, setCurrentRegion] = useState(null);
 
+
   const handleChange = (value: number) => {
     setSelectedValue(value);
     const matchedRegion = state.allRegions.find((region: Region) => region.regionid == value);
+    console.log(value, 'val');
+    console.log(selectedRegionid, 'scoop the poop');
     setSelectedRegion(matchedRegion);
+    setSelectedRegionId(value);
+    console.log(value,'nono')
+    // setSelectedRegionId((prevRegionId:any) => {
+    //   if (prevRegionId !== value) {
+    //     console.log(value,'val')
+    //     return value; // Update the state only if it's different from the previous value
+    //   }
+    //   return prevRegionId;
+    // });
+    console.log(selectedRegionid, 'scoop the poop');
   };
+  
 
   const regionOptions = state?.allRegions?.map((region: Region) => ({
     value: region?.regionid,
     label: region?.dnoregion
   }))
-  console.log(regionOptions);
-
 
 
   const handleDateChange = (range: any) => {
@@ -58,8 +77,18 @@ export default function RegionalDetails() {
     const finalDate = convertDateISO(quickDate);
     setquickSelectDateStart(finalDate);
     setQuickSelectDateValue(value);
-    console.log(quickSelectDateStart);
-  }
+    
+    // Assuming getDataByDate returns a promise
+    getDataByDate(finalDate, currentDateISOTime, selectedRegionid)
+      .then(data => {
+        setSelectedDateData(data);
+      })
+      .catch(error => {
+        console.error(error);
+        // Handle errors if needed
+      });
+    console.log(selectedDateData, 'oh snap'); 
+  };
 
 
   function changeIntensityTextColor(intensity: unknown) {
@@ -83,7 +112,18 @@ export default function RegionalDetails() {
     }
   }, [selectedRegion]);
 
-  console.log(currentRegion, 'eh')
+  useEffect(() => {
+  }, [selectedRegionid]);
+
+  useEffect(() => {
+  }, [selectedDateData])
+  
+  const specificRegions = [
+    { key: 'to', label: 'Date' },
+    { key: 'intensity.forecast', label: 'Forecast' },
+    { key: 'intensity.index', label: 'Index' },
+  ]
+
 
   return (
     <>
@@ -104,7 +144,7 @@ export default function RegionalDetails() {
         <div className='carbon-density-regional-graph-container'>
           <div className='carbon-density-all-information-container'>
             <div className='carbon-density-graph-information'>
-              <p className='carbon-density-text'> Carbon Intensity Data for {currentDate}</p>
+              <p className='carbon-density-text'> Carbon Intensity Data for {currentDateToDisplay}</p>
               <div className='carbon-density-graph'>
                 <DataChart chartData={selectedRegion} />
               </div>
@@ -132,7 +172,7 @@ export default function RegionalDetails() {
         <div className='carbon-density-regional-graph-container'>
           <div className='carbon-density-all-information-container'>
             <div className='carbon-density-graph-information'>
-              <p className='carbon-density-text'> Carbon Intensity Data for {currentDate}</p>
+              <p className='carbon-density-text'> Carbon Intensity Data for {currentDateToDisplay}</p>
               <div className='carbon-density-graph'>
                 <DataChart chartData={state?.selectedRegion} />
               </div>
@@ -173,6 +213,13 @@ export default function RegionalDetails() {
               endDate={endDate}
               selectsRange />
           </div>
+
+          {selectedDateData !== null ? <>
+            <p>Carbon Intensity for certain Range 
+              <Table columns={specificRegions} data={selectedDateData}/>
+            </p>
+          </> : <>
+          <h1>Testing</h1></>}
         </DisplayBackground>
       </div>
     </>
