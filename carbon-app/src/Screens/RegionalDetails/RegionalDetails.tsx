@@ -20,6 +20,7 @@ export default function RegionalDetails() {
   const [date, setDate] = useState<any>(new Date());
   const [quickSelectDateStart, setquickSelectDateStart] = useState<any>(null);
   const [quickSelectDateValue, setQuickSelectDateValue] = useState<any>('');
+  const [quickSelectGenerationMix, setQuickSelectGenerationMix] = useState<any>('');
   const [startDate, setStartDate] = useState();
   const [endDate, setEndDate] = useState();
   const [selectedDateData, setSelectedDateData] = useState<any>(null);
@@ -68,6 +69,7 @@ export default function RegionalDetails() {
 
   const handleDateChange = (range: any) => {
     const [startDate, endDate] = range;
+    console.log(range);
     setStartDate(startDate);
     setEndDate(endDate);
   };
@@ -82,6 +84,7 @@ export default function RegionalDetails() {
     getDataByDate(finalDate, currentDateISOTime, selectedRegionid)
       .then(data => {
         setSelectedDateData(data);
+        console.log(data.data.generationmix);
       })
       .catch(error => {
         console.error(error);
@@ -90,6 +93,10 @@ export default function RegionalDetails() {
     console.log(selectedDateData, 'oh snap'); 
   };
 
+  // TODO tomorrow
+  // Create line graph
+  // Create Circle graph to display data
+  // the handle date change do some converting to calculate the number of days 
 
   function changeIntensityTextColor(intensity: unknown) {
     switch (intensity) {
@@ -216,7 +223,7 @@ export default function RegionalDetails() {
 
           {selectedDateData !== null ? <>
             <p>Carbon Intensity for certain Range 
-              <Table columns={specificRegions} data={selectedDateData}/>
+
             </p>
           </> : <>
           <h1>Testing</h1></>}
