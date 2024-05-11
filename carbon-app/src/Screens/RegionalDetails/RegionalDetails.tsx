@@ -12,7 +12,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import { Region } from "../../interfaces/regional-interface";
 import { calculateStartDate, convertDateISO } from '../../utils/calculateStartDate';
 import getDataByDate from '../../services/getIntensityByDate';
-import Table from "../../Components/Table/Table";
+import StackedAreaChart from '../../Components/StackedAreaChart/StackedAreaChart';
 
 export default function RegionalDetails() {
   const [selectedValue, setSelectedValue] = useState<any>('');
@@ -223,7 +223,7 @@ export default function RegionalDetails() {
 
           {selectedDateData !== null ? <>
             <p>Carbon Intensity for certain Range 
-
+              <StackedAreaChart timeInterval={quickSelectDateValue} />
             </p>
           </> : <>
           <h1>Testing</h1></>}
