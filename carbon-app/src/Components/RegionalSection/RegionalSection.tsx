@@ -201,6 +201,13 @@ export default function RegionalSection({ regionalData }: any) {
             >
               Go to region
             </Link>
+
+            <div>
+            <h2>About this data</h2>
+              <div>
+                <p>The Carbon intensity forecast includes CO2 emissions related to electricity generation. It includes emissions from all large metered power stations, interconnector imports, transmission and distribution losses and accounts for national electricity demand, embedded wind and solar generation.</p>
+            </div>
+          </div>
           </div>
         </section>
       </div>
