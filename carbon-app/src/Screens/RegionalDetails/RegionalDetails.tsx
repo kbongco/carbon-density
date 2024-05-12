@@ -12,7 +12,9 @@ import "react-datepicker/dist/react-datepicker.css";
 import { Region } from "../../interfaces/regional-interface";
 import { calculateStartDate, convertDateISO } from '../../utils/calculateStartDate';
 import getDataByDate from '../../services/getIntensityByDate';
-import StackedAreaChart from '../../Components/StackedAreaChart/StackedAreaChart';
+import Barchart from '../../Components/Barchart/Barchart'
+import calculateGenerationMixAverage from '../../utils/calculateGenerationMix';
+import calculateAverageIntensity from '../../utils/calculateAverageForecast';
 
 export default function RegionalDetails() {
   const [selectedValue, setSelectedValue] = useState<any>('');
@@ -40,6 +42,7 @@ export default function RegionalDetails() {
   const chartData = state?.selectedRegion?.generationmix;
   const { regionid } = useParams();
   const [currentRegion, setCurrentRegion] = useState(null);
+  const [gerationMixAverageData, setGenerationMixAverageData] = useState([]);
 
 
   const handleChange = (value: number) => {
@@ -50,13 +53,6 @@ export default function RegionalDetails() {
     setSelectedRegion(matchedRegion);
     setSelectedRegionId(value);
     console.log(value,'nono')
-    // setSelectedRegionId((prevRegionId:any) => {
-    //   if (prevRegionId !== value) {
-    //     console.log(value,'val')
-    //     return value; // Update the state only if it's different from the previous value
-    //   }
-    //   return prevRegionId;
-    // });
     console.log(selectedRegionid, 'scoop the poop');
   };
   
@@ -84,11 +80,15 @@ export default function RegionalDetails() {
     getDataByDate(finalDate, currentDateISOTime, selectedRegionid)
       .then(data => {
         setSelectedDateData(data);
-        // console.log(data.data.generationmix);
+        console.log(data.data.data);
+        const byDayAverage = calculateAverageIntensity(data.data.data);
+        console.log(byDayAverage);
+        const averageTotal = calculateGenerationMixAverage(data.data.data);
+        setGenerationMixAverageData(averageTotal);
+        console.log(averageTotal, 'totalAverage');
       })
       .catch(error => {
         console.error(error);
-        // Handle errors if needed
       });
     console.log(selectedDateData, 'oh snap'); 
   };
@@ -222,9 +222,9 @@ export default function RegionalDetails() {
           </div>
 
           {selectedDateData !== null ? <>
-            <p>Carbon Intensity for certain Range 
-              <StackedAreaChart timeInterval={quickSelectDateValue} />
+            <p>Generation Mix Average
             </p>
+            <Barchart data={gerationMixAverageData}/>
           </> : <>
           <h1>Testing</h1></>}
         </DisplayBackground>

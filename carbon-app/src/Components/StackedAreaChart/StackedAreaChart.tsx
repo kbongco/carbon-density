@@ -1,8 +1,11 @@
 import React from 'react';
 import { Line } from 'react-chartjs-2';
+import { Chart, registerables } from 'chart.js';
 
-export default function StackedAreaChart({ timeInterval }: any) {
+
+export default function StackedAreaChart({ timeInterval, data }: any) {
   console.log(timeInterval,'int')
+  console.log(data);
 
   const generateLabels = (interval: string) => {
     const labels: string[] = [];
@@ -57,7 +60,62 @@ export default function StackedAreaChart({ timeInterval }: any) {
     }
   
     return labels;
-};
+  };
+
+  const graphLabels = generateLabels(timeInterval);
+  const fuelColors:any = {
+    biomass: 'rgba(255, 99, 132, 0.2)',
+    coal: 'rgba(54, 162, 235, 0.2)',
+    gas: 'rgba(255, 206, 86, 0.2)',
+    hydro: 'rgba(75, 192, 192, 0.2)',
+    imports: 'rgba(153, 102, 255, 0.2)',
+    nuclear: 'rgba(255, 159, 64, 0.2)',
+    other: 'rgba(255, 99, 132, 0.2)',
+    solar: 'rgba(54, 162, 235, 0.2)',
+    wind: 'rgba(75, 192, 192, 0.2)'
+  };
+  const datasets = Object.entries(data).map(([fuel, perc]) => ({
+    label: fuel.charAt(0).toUpperCase() + fuel.slice(1), 
+    data: Array(1).fill(perc), 
+    backgroundColor: fuelColors[fuel], 
+    borderColor: fuelColors[fuel],
+    borderWidth: 1,
+    fill: true
+}));
+  console.log(graphLabels);
+
+  console.log(datasets,);
+  
+  const chartData = {
+    labels: graphLabels,
+    datasets: datasets
+  };
+
+  const chartOptions = {
+    plugins: {
+      legend: {
+        position: 'top' as const,
+      },
+    },
+    scales: {
+      x: {
+        type: 'time' as const, // Specify type as 'time'
+        time: {
+          parser: 'YYYY-MM-DDTHH:mm:ss.SSSZ',
+          tooltipFormat: 'll HH:mm',
+          unit: 'hour' as const,
+          displayFormats: {
+            hour: 'MMM D, HH:mm',
+          },
+        },
+        stacked: true,
+      },
+      y: {
+        stacked: true,
+      },
+    },
+  };
+  
 
 
 
@@ -103,7 +161,7 @@ export default function StackedAreaChart({ timeInterval }: any) {
 
   return ( 
     <>
-      {/* <Line data={chartData} />; */}
+    <Line data={chartData} options={chartOptions} />
     </>
   )
 }
