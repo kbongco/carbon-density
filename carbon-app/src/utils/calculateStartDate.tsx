@@ -71,3 +71,14 @@ export const calculateStartDate = (selectedOptionValue: string): string => {
   const formattedStartDate = startDate.toISOString().split('T')[0];
   return formattedStartDate;
 };
+
+export const convertDateISO = (value: string) => {
+  console.log(value);
+  const currentTime = new Date();
+  const hours = currentTime.getHours().toString().padStart(2, "0");
+  const minutes = currentTime.getMinutes().toString().padStart(2, "0");
+  const seconds = currentTime.getSeconds().toString().padStart(2, "0");
+  const convertISO = `${value}T${hours}:${minutes}:${seconds}Z`;
+
+  return convertISO;
+}

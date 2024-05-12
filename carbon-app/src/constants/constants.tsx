@@ -31,80 +31,10 @@ export const specificRegions = [
 ]
 
 export const dateOptions: Options[] = [
-  {
-    value: '24hours',
-    label: '24 hours'
-  },
-  {
-    value: '48hours',
-    label: '48 hours'
-  },
-  {
-    value: '1week',
-    label: '1 week'
-  },
-  {
-    value: '1month',
-    label: '1 month'
-  },
-  {
-    value: '2months',
-    label: '2 months'
-  },
-  {
-    value: '3months',
-    label: '3 months'
-  },
-  {
-    value: '4months',
-    label: '4 months'
-  },
-  {
-    value: '5months',
-    label: '5 months'
-  },
-  {
-    value: '6months',
-    label: '6 months'
-  },
-  {
-    value: '7months',
-    label: '7 months'
-  },
-  {
-    value: '8months',
-    label: '8 months'
-  },
-  {
-    value: '9months',
-    label: '9 months'
-  },
-  {
-    value: '10months',
-    label: '10 months'
-  },
-  {
-    value: '11months',
-    label: '11 months'
-  },
-  {
-    value: '1year',
-    label: '1 year'
-  },
-  {
-    value: '2years',
-    label: '2 years'
-  },
-  {
-    value: '3years',
-    label: '3 years'
-  },
-  {
-    value: '4years',
-    label: '4 years'
-  },
-  {
-    value: '5years',
-    label: '5 years'
-  },
+  { value: '', label: 'Select an option' }, // Default option
+  { value: '24hours', label: '24 hours' },
+  { value: '48hours', label: '48 hours' },
+  { value: '1week', label: '1 week' },
+  { value: '1month', label: '1 month' },
+  { value: '2months', label: '2 months' }
 ];
