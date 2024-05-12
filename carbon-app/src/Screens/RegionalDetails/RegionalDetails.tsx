@@ -72,7 +72,7 @@ export default function RegionalDetails() {
 
   const quickSelectDateChange = (value: string) => {
     const quickDate = calculateStartDate(value);
-    const finalDate = convertDateISO(quickDate);
+    const finalDate:any = convertDateISO(quickDate);
     setquickSelectDateStart(finalDate);
     setQuickSelectDateValue(value);
     
@@ -82,7 +82,8 @@ export default function RegionalDetails() {
         setSelectedDateData(data);
         console.log(data.data.data);
         const byDayAverage = calculateAverageIntensity(data.data.data);
-        console.log(byDayAverage);
+        console.log(byDayAverage,'average of:', value);
+        // console.log(byDayAverage[0],'test');
         const averageTotal = calculateGenerationMixAverage(data.data.data);
         setGenerationMixAverageData(averageTotal);
         console.log(averageTotal, 'totalAverage');
