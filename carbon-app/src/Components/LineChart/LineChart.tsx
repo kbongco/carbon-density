@@ -19,12 +19,11 @@ export default function LineChart({ data, onPointClick }: any)
       const clickedElement = elements[0];
       const index = clickedElement.index;
       
-      // Find the corresponding average value based on the clicked index
       const clickedData = data[index];
       const clickedValue = clickedData ? clickedData.average : null;
       console.log(clickedValue);
       
-      onPointClick(clickedValue); // Call the callback function with the clicked value
+      onPointClick(clickedValue);
     }
   };
 

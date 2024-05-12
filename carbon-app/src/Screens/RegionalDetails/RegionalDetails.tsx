@@ -5,7 +5,7 @@ import DataChart from "../../Components/Chart";
 import DataCards from "../../Components/DataCards/DataCards";
 import Select from '../../Components/Select/Select';
 import './RegionalDetails.scss';
-import { Options } from "../../interfaces/component-interfaces";
+
 import { dateOptions } from "../../constants/constants";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -16,6 +16,7 @@ import Barchart from '../../Components/Barchart/Barchart'
 import calculateGenerationMixAverage from '../../utils/calculateGenerationMix';
 import calculateAverageIntensity from '../../utils/calculateAverageForecast';
 import LineChart from '../../Components/LineChart/LineChart';
+import calculateIndex from '../../utils/calculateIndex';
 
 export default function RegionalDetails() {
   const [selectedValue, setSelectedValue] = useState<any>('');
@@ -66,7 +67,7 @@ export default function RegionalDetails() {
     label: region?.dnoregion
   }))
 
-  const handlePointClick = (value:any) => {
+  const handlePointClick = (value: any) => {
     setClickedPoint(value);
   };
 
@@ -140,7 +141,6 @@ export default function RegionalDetails() {
     { key: 'intensity.forecast', label: 'Forecast' },
     { key: 'intensity.index', label: 'Index' },
   ]
-
 
   return (
     <>
@@ -250,17 +250,22 @@ export default function RegionalDetails() {
             </ul>
 
             <h2>Click on a point in the graph to get more details</h2>
-            {clickedPoint &&
-              <><>
-                <DataCards>
-                  <p>Carbon Intensity</p>
-                  <p>{clickedPoint}</p>
-                </DataCards>
-              </><div>
-                <DataCards>
-                  <p>Index</p>
+            {clickedPoint && <>
+              <div className='selected-date-card-container-all'>
+                <div className='selected-date-card-container'>
+                  <DataCards>
+                    <p className='selected-date-card-header'>Carbon Intensity</p>
+                    <p className="selected-date-card-text">{Math.round(clickedPoint)}</p>
+                  </DataCards>
+                </div>
+
+                <div className='selected-date-card-container'>
+                  <DataCards>
+                    <p className='selected-date-card-header'>Index</p>
+                    <p className='selected-date-card-text'>{calculateIndex(clickedPoint)}</p>
                   </DataCards></div>
-              </>}
+              </div>
+            </>}
           </div>
         </DisplayBackground>
       </div>
