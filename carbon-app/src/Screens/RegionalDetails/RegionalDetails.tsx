@@ -15,6 +15,7 @@ import getDataByDate from '../../services/getIntensityByDate';
 import Barchart from '../../Components/Barchart/Barchart'
 import calculateGenerationMixAverage from '../../utils/calculateGenerationMix';
 import calculateAverageIntensity from '../../utils/calculateAverageForecast';
+import LineChart from '../../Components/LineChart/LineChart';
 
 export default function RegionalDetails() {
   const [selectedValue, setSelectedValue] = useState<any>('');
@@ -22,7 +23,6 @@ export default function RegionalDetails() {
   const [date, setDate] = useState<any>(new Date());
   const [quickSelectDateStart, setquickSelectDateStart] = useState<any>(null);
   const [quickSelectDateValue, setQuickSelectDateValue] = useState<any>('');
-  const [quickSelectGenerationMix, setQuickSelectGenerationMix] = useState<any>('');
   const [startDate, setStartDate] = useState();
   const [endDate, setEndDate] = useState();
   const [selectedDateData, setSelectedDateData] = useState<any>(null);
@@ -30,7 +30,7 @@ export default function RegionalDetails() {
   const state = location.state;
   const [selectedRegionid, setSelectedRegionId] = useState<any>(() => state.selectedRegion.regionid);
 
-  console.log(state.selectedRegion.regionid,'loco');
+  console.log(state.selectedRegion.regionid, 'loco');
   const getDate = new Date(); // Current date and time
   const currentDateISOTime = new Date().toISOString();
   const options: Intl.DateTimeFormatOptions = {
@@ -43,6 +43,10 @@ export default function RegionalDetails() {
   const { regionid } = useParams();
   const [currentRegion, setCurrentRegion] = useState(null);
   const [gerationMixAverageData, setGenerationMixAverageData] = useState([]);
+  const [averageForecastByDay, setAverageForecastByDay] = useState<any>(
+    []
+  );
+  const [clickedPoint, setClickedPoint] = useState(null);
 
 
   const handleChange = (value: number) => {
@@ -52,15 +56,19 @@ export default function RegionalDetails() {
     console.log(selectedRegionid, 'scoop the poop');
     setSelectedRegion(matchedRegion);
     setSelectedRegionId(value);
-    console.log(value,'nono')
+    console.log(value, 'nono')
     console.log(selectedRegionid, 'scoop the poop');
   };
-  
+
 
   const regionOptions = state?.allRegions?.map((region: Region) => ({
     value: region?.regionid,
     label: region?.dnoregion
   }))
+
+  const handlePointClick = (value:any) => {
+    setClickedPoint(value);
+  };
 
 
   const handleDateChange = (range: any) => {
@@ -72,17 +80,18 @@ export default function RegionalDetails() {
 
   const quickSelectDateChange = (value: string) => {
     const quickDate = calculateStartDate(value);
-    const finalDate:any = convertDateISO(quickDate);
+    const finalDate: any = convertDateISO(quickDate);
     setquickSelectDateStart(finalDate);
     setQuickSelectDateValue(value);
-    
+
     // Assuming getDataByDate returns a promise
     getDataByDate(finalDate, currentDateISOTime, selectedRegionid)
       .then(data => {
         setSelectedDateData(data);
         console.log(data.data.data);
         const byDayAverage = calculateAverageIntensity(data.data.data);
-        console.log(byDayAverage,'average of:', value);
+        setAverageForecastByDay(byDayAverage);
+        console.log(byDayAverage, 'average of:', value);
         // console.log(byDayAverage[0],'test');
         const averageTotal = calculateGenerationMixAverage(data.data.data);
         setGenerationMixAverageData(averageTotal);
@@ -91,7 +100,7 @@ export default function RegionalDetails() {
       .catch(error => {
         console.error(error);
       });
-    console.log(selectedDateData, 'oh snap'); 
+    console.log(selectedDateData, 'oh snap');
   };
 
   // TODO tomorrow
@@ -125,7 +134,7 @@ export default function RegionalDetails() {
 
   useEffect(() => {
   }, [selectedDateData])
-  
+
   const specificRegions = [
     { key: 'to', label: 'Date' },
     { key: 'intensity.forecast', label: 'Forecast' },
@@ -149,67 +158,67 @@ export default function RegionalDetails() {
       </DisplayBackground>
       <DisplayBackground>
         {selectedRegion !== null ? <><h1>{selectedRegion?.dnoregion}</h1>
-        <div className='carbon-density-regional-graph-container'>
-          <div className='carbon-density-all-information-container'>
-            <div className='carbon-density-graph-information'>
-              <p className='carbon-density-text'> Carbon Intensity Data for {currentDateToDisplay}</p>
-              <div className='carbon-density-graph'>
-                <DataChart chartData={selectedRegion} />
+          <div className='carbon-density-regional-graph-container'>
+            <div className='carbon-density-all-information-container'>
+              <div className='carbon-density-graph-information'>
+                <p className='carbon-density-text'> Carbon Intensity Data for {currentDateToDisplay}</p>
+                <div className='carbon-density-graph'>
+                  <DataChart chartData={selectedRegion} />
+                </div>
               </div>
-            </div>
-            <div className='carbon-intensity-regional-data-container'>
-              <div className='carbon-intensity-regional-data'>
-                <div className='carbon-intensity-regional-information-container'>
-                  <div className='carbon-intensity-regional-card-container'>
-                    <DataCards>
-                      <p className='carbon-intensity-forecast-header'>Forecast</p>
-                      <p className='carbon-intensity-regional-forecast-text'>{selectedRegion?.intensity?.forecast}</p>
-                    </DataCards>
-                  </div>
-                  <div className='carbon-intensity-regional-card-container'>
-                    <DataCards>
-                      <p className='carbon-intensity-forecast-header'>Index</p>
-                      <p className='carbon-intensity-regional-forecast-text'>{selectedRegion?.intensity?.index}</p>
-                    </DataCards>
+              <div className='carbon-intensity-regional-data-container'>
+                <div className='carbon-intensity-regional-data'>
+                  <div className='carbon-intensity-regional-information-container'>
+                    <div className='carbon-intensity-regional-card-container'>
+                      <DataCards>
+                        <p className='carbon-intensity-forecast-header'>Forecast</p>
+                        <p className='carbon-intensity-regional-forecast-text'>{selectedRegion?.intensity?.forecast}</p>
+                      </DataCards>
+                    </div>
+                    <div className='carbon-intensity-regional-card-container'>
+                      <DataCards>
+                        <p className='carbon-intensity-forecast-header'>Index</p>
+                        <p className='carbon-intensity-regional-forecast-text'>{selectedRegion?.intensity?.index}</p>
+                      </DataCards>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-        </div> </> : <><h1>{state?.selectedRegion?.dnoregion} </h1>
-        <div className='carbon-density-regional-graph-container'>
-          <div className='carbon-density-all-information-container'>
-            <div className='carbon-density-graph-information'>
-              <p className='carbon-density-text'> Carbon Intensity Data for {currentDateToDisplay}</p>
-              <div className='carbon-density-graph'>
-                <DataChart chartData={state?.selectedRegion} />
+          </div> </> : <><h1>{state?.selectedRegion?.dnoregion} </h1>
+          <div className='carbon-density-regional-graph-container'>
+            <div className='carbon-density-all-information-container'>
+              <div className='carbon-density-graph-information'>
+                <p className='carbon-density-text'> Carbon Intensity Data for {currentDateToDisplay}</p>
+                <div className='carbon-density-graph'>
+                  <DataChart chartData={state?.selectedRegion} />
+                </div>
               </div>
-            </div>
-            <div className='carbon-intensity-regional-data-container'>
-              <div className='carbon-intensity-regional-data'>
-                <div className='carbon-intensity-regional-information-container'>
-                  <div className='carbon-intensity-regional-card-container'>
-                    <DataCards>
-                      <p className='carbon-intensity-forecast-header'>Forecast</p>
-                      <p className='carbon-intensity-regional-forecast-text'>{state?.selectedRegion?.intensity?.forecast}</p>
-                    </DataCards>
-                  </div>
-                  <div className='carbon-intensity-regional-card-container'>
-                    <DataCards>
-                      <p className='carbon-intensity-forecast-header'>Index</p>
-                      <p className='carbon-intensity-regional-forecast-text'>{state?.selectedRegion?.intensity?.index}</p>
-                    </DataCards>
+              <div className='carbon-intensity-regional-data-container'>
+                <div className='carbon-intensity-regional-data'>
+                  <div className='carbon-intensity-regional-information-container'>
+                    <div className='carbon-intensity-regional-card-container'>
+                      <DataCards>
+                        <p className='carbon-intensity-forecast-header'>Forecast</p>
+                        <p className='carbon-intensity-regional-forecast-text'>{state?.selectedRegion?.intensity?.forecast}</p>
+                      </DataCards>
+                    </div>
+                    <div className='carbon-intensity-regional-card-container'>
+                      <DataCards>
+                        <p className='carbon-intensity-forecast-header'>Index</p>
+                        <p className='carbon-intensity-regional-forecast-text'>{state?.selectedRegion?.intensity?.index}</p>
+                      </DataCards>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-        </div> </>}
+          </div> </>}
       </DisplayBackground>
       <div className='carbon-intensity-regional-information'>
         <DisplayBackground>
           <h1>View Carbon Intensity During a specific date</h1>
-          <Select label="Quick Select a range" options={dateOptions} value={quickSelectDateValue  } onChange={quickSelectDateChange} />
+          <Select label="Quick Select a range" options={dateOptions} value={quickSelectDateValue} onChange={quickSelectDateChange} />
 
           <div>
             <p>Select a date here </p>
@@ -225,9 +234,34 @@ export default function RegionalDetails() {
           {selectedDateData !== null ? <>
             <p>Generation Mix Average
             </p>
-            <Barchart data={gerationMixAverageData}/>
+            <Barchart data={gerationMixAverageData} />
+            <LineChart data={averageForecastByDay} onPointClick={handlePointClick} />
           </> : <>
-          <h1>Testing</h1></>}
+            <h1>Testing</h1></>}
+        </DisplayBackground>
+        <DisplayBackground>
+          <div className='carbon-intensity-regional-information'>
+            <h1>Information</h1>
+            <ul>
+              <li>What is generation mix?</li>
+              <ul>
+                <li>The generation mix is the fuel type which contributes to the overal Carbon intensity. It includes all CO2 emissions related to electricity generation</li>
+              </ul>
+            </ul>
+
+            <h2>Click on a point in the graph to get more details</h2>
+            {clickedPoint &&
+              <><>
+                <DataCards>
+                  <p>Carbon Intensity</p>
+                  <p>{clickedPoint}</p>
+                </DataCards>
+              </><div>
+                <DataCards>
+                  <p>Index</p>
+                  </DataCards></div>
+              </>}
+          </div>
         </DisplayBackground>
       </div>
     </>
