@@ -96,35 +96,34 @@
 
     .selected-date-card-text {
       text-align: center;
-      margin-top: 0.5rem;
-      font-size: 1.2rem;
+      margin-top: 0;
+      font-size: 1.5rem;
+    }
+
+    .selected-date-card-text-intensity {
+        text-align: center;
+        margin-top: 0;
+        font-size: 1.5rem;
+
+        &.very-low-intensity {
+          color: #98FB98; 
+        }
+
+        &.low-intensity {
+          color: #133b24;
+        }
+      
+        &.moderate-intensity {
+          color: #F9A825;
+        }
+      
+        &.high-intensity {
+          color: red;
+        }
+
+        &.very-high-intensity {
+          color: #8B0000;
+        }
     }
   }
-
-  // .selected-date-card-container {
-  //   width: 60%;
-
-  //   .selected-date-card-header {
-  //   text-align: center;
-  //   font-size: 1.2rem;
-  //   margin-top: 0;
-  //   margin-bottom: 0;
-
-  //   }
-
-  //   .selected-date-card-text {
-  //   text-align: center;
-  //   margin-top: 0.5rem;
-  //   font-size: 1.2rem;
-  //   }
-  // }
-
-  // @media screen and (min-width: 768px){
-  //   .selected-date-card-container-all {
-  //     display: flex;
-  //   flex-direction: column;
-  //   align-items: center;
-  //   gap: 1rem;
-  //   }
-  // }
 }

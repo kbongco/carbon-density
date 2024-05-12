@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { Link, useLocation, useParams } from 'react-router-dom';
+import { Link, useLocation, useParams, useNavigate } from 'react-router-dom';
 import DisplayBackground from '../../Components/DisplayBackground/DisplayBackground';
 import DataChart from "../../Components/Chart";
 import DataCards from "../../Components/DataCards/DataCards";
 import Select from '../../Components/Select/Select';
 import './RegionalDetails.scss';
-
 import { dateOptions } from "../../constants/constants";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -17,21 +16,24 @@ import calculateGenerationMixAverage from '../../utils/calculateGenerationMix';
 import calculateAverageIntensity from '../../utils/calculateAverageForecast';
 import LineChart from '../../Components/LineChart/LineChart';
 import calculateIndex from '../../utils/calculateIndex';
+import changeIntensityTextColor from '../../utils/changeIntensityTextColor';
 
 export default function RegionalDetails() {
+  const navigate = useNavigate();
   const [selectedValue, setSelectedValue] = useState<any>('');
   const [selectedRegion, setSelectedRegion] = useState<any>(null);
   const [date, setDate] = useState<any>(new Date());
   const [quickSelectDateStart, setquickSelectDateStart] = useState<any>(null);
   const [quickSelectDateValue, setQuickSelectDateValue] = useState<any>('');
-  const [startDate, setStartDate] = useState();
-  const [endDate, setEndDate] = useState();
   const [selectedDateData, setSelectedDateData] = useState<any>(null);
   const location = useLocation();
   const state = location.state;
-  const [selectedRegionid, setSelectedRegionId] = useState<any>(() => state.selectedRegion.regionid);
+  const { regionid } = useParams();
+  console.log(regionid,'regions')
+  const [selectedRegionid, setSelectedRegionId] = useState<any>(() => regionid);
+  const [timePeriodAverage, setTimePeriodAverage] = useState<number>(0);
 
-  console.log(state.selectedRegion.regionid, 'loco');
+
   const getDate = new Date(); // Current date and time
   const currentDateISOTime = new Date().toISOString();
   const options: Intl.DateTimeFormatOptions = {
@@ -41,7 +43,6 @@ export default function RegionalDetails() {
   };
   const currentDateToDisplay = getDate.toLocaleDateString('en-US', options);
   const chartData = state?.selectedRegion?.generationmix;
-  const { regionid } = useParams();
   const [currentRegion, setCurrentRegion] = useState(null);
   const [gerationMixAverageData, setGenerationMixAverageData] = useState([]);
   const [averageForecastByDay, setAverageForecastByDay] = useState<any>(
@@ -50,17 +51,17 @@ export default function RegionalDetails() {
   const [clickedPoint, setClickedPoint] = useState(null);
 
 
+
   const handleChange = (value: number) => {
     setSelectedValue(value);
-    const matchedRegion = state.allRegions.find((region: Region) => region.regionid == value);
-    console.log(value, 'val');
-    console.log(selectedRegionid, 'scoop the poop');
+
+    const matchedRegion = state?.allRegions?.find((region: Region) => region.regionid == value);
     setSelectedRegion(matchedRegion);
     setSelectedRegionId(value);
-    console.log(value, 'nono')
-    console.log(selectedRegionid, 'scoop the poop');
-  };
 
+
+    navigate(`/regional-data/${value}`, { replace: true });
+  };
 
   const regionOptions = state?.allRegions?.map((region: Region) => ({
     value: region?.regionid,
@@ -71,56 +72,29 @@ export default function RegionalDetails() {
     setClickedPoint(value);
   };
 
-
-  const handleDateChange = (range: any) => {
-    const [startDate, endDate] = range;
-    console.log(range);
-    setStartDate(startDate);
-    setEndDate(endDate);
-  };
-
   const quickSelectDateChange = (value: string) => {
     const quickDate = calculateStartDate(value);
     const finalDate: any = convertDateISO(quickDate);
     setquickSelectDateStart(finalDate);
     setQuickSelectDateValue(value);
 
-    // Assuming getDataByDate returns a promise
+
     getDataByDate(finalDate, currentDateISOTime, selectedRegionid)
       .then(data => {
         setSelectedDateData(data);
-        console.log(data.data.data);
         const byDayAverage = calculateAverageIntensity(data.data.data);
+        const totalLengthAv = byDayAverage.length;
         setAverageForecastByDay(byDayAverage);
-        console.log(byDayAverage, 'average of:', value);
-        // console.log(byDayAverage[0],'test');
+        const totalAv = byDayAverage.map((av: any) => av.average).reduce((acc: any, cur: any) => acc + cur, 0);
+        const actualAverage = Math.round(totalAv) / totalLengthAv;
+        setTimePeriodAverage(actualAverage);
         const averageTotal = calculateGenerationMixAverage(data.data.data);
         setGenerationMixAverageData(averageTotal);
-        console.log(averageTotal, 'totalAverage');
       })
       .catch(error => {
         console.error(error);
       });
-    console.log(selectedDateData, 'oh snap');
   };
-
-  // TODO tomorrow
-  // Create line graph
-  // Create Circle graph to display data
-  // the handle date change do some converting to calculate the number of days 
-
-  function changeIntensityTextColor(intensity: unknown) {
-    switch (intensity) {
-      case 'low':
-        return 'low-intensity';
-      case 'moderate':
-        return 'moderate-intensity';
-      case 'high':
-        return 'high-intensity';
-      default:
-        return 'black';
-    }
-  }
 
   useEffect(() => {
     if (selectedRegion) {
@@ -130,17 +104,15 @@ export default function RegionalDetails() {
     }
   }, [selectedRegion]);
 
+
   useEffect(() => {
-  }, [selectedRegionid]);
+    // Update selectedRegionid whenever regionid changes
+    setSelectedRegionId(regionid);
+  }, [regionid]); // Run this effect whenever regionid changes
 
   useEffect(() => {
   }, [selectedDateData])
 
-  const specificRegions = [
-    { key: 'to', label: 'Date' },
-    { key: 'intensity.forecast', label: 'Forecast' },
-    { key: 'intensity.index', label: 'Index' },
-  ]
 
   return (
     <>
@@ -197,7 +169,7 @@ export default function RegionalDetails() {
               <div className='carbon-intensity-regional-data-container'>
                 <div className='carbon-intensity-regional-data'>
                   <div className='carbon-intensity-regional-information-container'>
-                    <div className='carbon-intensity-regional-card-container'>
+                      <div className='carbon-intensity-regional-card-container'>
                       <DataCards>
                         <p className='carbon-intensity-forecast-header'>Forecast</p>
                         <p className='carbon-intensity-regional-forecast-text'>{state?.selectedRegion?.intensity?.forecast}</p>
@@ -217,27 +189,16 @@ export default function RegionalDetails() {
       </DisplayBackground>
       <div className='carbon-intensity-regional-information'>
         <DisplayBackground>
-          <h1>View Carbon Intensity During a specific date</h1>
-          <Select label="Quick Select a range" options={dateOptions} value={quickSelectDateValue} onChange={quickSelectDateChange} />
-
+          <h1>View Carbon Intensity in select intervals</h1>
           <div>
-            <p>Select a date here </p>
-
-            <DatePicker
-              selected={startDate}
-              onChange={handleDateChange}
-              startDate={startDate}
-              endDate={endDate}
-              selectsRange />
+          <Select label="Quick Select a range" options={dateOptions} value={quickSelectDateValue} onChange={quickSelectDateChange} />
           </div>
-
           {selectedDateData !== null ? <>
             <p>Generation Mix Average
             </p>
             <Barchart data={gerationMixAverageData} />
             <LineChart data={averageForecastByDay} onPointClick={handlePointClick} />
-          </> : <>
-            <h1>Testing</h1></>}
+          </> : ''}
         </DisplayBackground>
         <DisplayBackground>
           <div className='carbon-intensity-regional-information'>
@@ -249,23 +210,36 @@ export default function RegionalDetails() {
               </ul>
             </ul>
 
-            <h2>Click on a point in the graph to get more details</h2>
-            {clickedPoint && <>
-              <div className='selected-date-card-container-all'>
-                <div className='selected-date-card-container'>
-                  <DataCards>
-                    <p className='selected-date-card-header'>Carbon Intensity</p>
-                    <p className="selected-date-card-text">{Math.round(clickedPoint)}</p>
-                  </DataCards>
-                </div>
-
-                <div className='selected-date-card-container'>
-                  <DataCards>
-                    <p className='selected-date-card-header'>Index</p>
-                    <p className='selected-date-card-text'>{calculateIndex(clickedPoint)}</p>
-                  </DataCards></div>
+            <div>
+              <h3>Average for Selected Date Range</h3>
+              <DataCards>
+                <p>Intensity Average for time span</p>
+                <p>{Math.round(timePeriodAverage)}</p>
+              </DataCards>
+                  {/* <p>{Math.round(timePeriodAverage)}</p> */}
               </div>
-            </>}
+              {clickedPoint ? (
+                <div className='selected-date-card-container-all'>
+                  <div className='selected-date-card-container'>
+                    <DataCards>
+                      <p className='selected-date-card-header'>Carbon Intensity</p>
+                      <p className="selected-date-card-text">{Math.round(clickedPoint)}</p>
+                    </DataCards>
+                  </div>
+
+                  <div className='selected-date-card-container'>
+                    <DataCards>
+                      <p className='selected-date-card-header'>Index</p>
+                      <p className={`selected-date-card-text-intensity ${changeIntensityTextColor(calculateIndex(clickedPoint))}`}>
+                        {calculateIndex(clickedPoint)}
+                      </p>
+                    </DataCards>
+                  </div>
+              </div>
+              
+              ) : (
+                <h2>Click on a point in the graph to get more details</h2>
+              )}
           </div>
         </DisplayBackground>
       </div>

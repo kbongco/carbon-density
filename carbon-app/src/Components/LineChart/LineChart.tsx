@@ -46,7 +46,6 @@ export default function LineChart({ data, onPointClick }: any)
 
   return ( 
     <>
-      <h1>Line Chart Test</h1>
       <Line data={lineData} options={options} />
     </>
   )

@@ -31,24 +31,10 @@ export const specificRegions = [
 ]
 
 export const dateOptions: Options[] = [
-  {
-    value: '24hours',
-    label: '24 hours'
-  },
-  {
-    value: '48hours',
-    label: '48 hours'
-  },
-  {
-    value: '1week',
-    label: '1 week'
-  },
-  {
-    value: '1month',
-    label: '1 month'
-  },
-  {
-    value: '2months',
-    label: '2 months'
-  }
+  { value: '', label: 'Select an option' }, // Default option
+  { value: '24hours', label: '24 hours' },
+  { value: '48hours', label: '48 hours' },
+  { value: '1week', label: '1 week' },
+  { value: '1month', label: '1 month' },
+  { value: '2months', label: '2 months' }
 ];
