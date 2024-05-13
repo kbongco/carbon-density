@@ -6,6 +6,7 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: 'bundle.js',
+    publicPath: '/',
   },
   resolve: {
     extensions: ['.tsx', '.ts', '.jsx', '.js'],
@@ -21,6 +22,10 @@ module.exports = {
         test: /\.scss$/,
         use: ['style-loader', 'css-loader', 'sass-loader'],
       },
+      {
+        test: /\.css$/,
+        use: ['style-loader', 'css-loader'],
+      },
     ],
   },
   plugins: [
@@ -28,4 +33,9 @@ module.exports = {
       template: './src/index.html',
     }),
   ],
+  devServer: {
+    historyApiFallback: true,
+    compress: true,
+    port: 8080,
+  },
 };

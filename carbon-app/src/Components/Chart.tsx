@@ -3,29 +3,22 @@ import { Pie } from 'react-chartjs-2';
 import { Chart } from 'chart.js';
 import { PieController, ArcElement, Tooltip, Legend } from 'chart.js';
 
+Chart.register(PieController, ArcElement, Tooltip, Legend);
 
+export default function DataChart({ chartData }: any) {
+  const dataNames = chartData?.generationmix?.map((name: { fuel: string; }) => name.fuel || []);
+  const dataNumbers = chartData?.generationmix?.map((percent: { perc: number }) => percent.perc);
 
-
-export default function DataChart({ todayData }: any) {
-  Chart.register(PieController, ArcElement, Tooltip, Legend);
-  const dataNames = todayData?.generationData?.generationmix?.map((name: { fuel: string; }) => name.fuel || []);
-  const dataNumbers = todayData?.generationData?.generationmix?.map((percent: { perc: number }) => percent.perc);
 
   const [initialAspectRatio, setInitialAspectRatio] = useState(1);
 
   useEffect(() => {
     const handleInitialAspectRatio = () => {
-      if (window.innerWidth >= 1020) {
-        setInitialAspectRatio(2); // Set initial aspect ratio to 2 for larger screens
-      } else {
-        setInitialAspectRatio(1); // Set initial aspect ratio to 1 for smaller screens
-      }
+      setInitialAspectRatio(window.innerWidth >= 1020 ? 2 : 1);
     };
 
-    // Set initial aspect ratio based on screen size
     handleInitialAspectRatio();
 
-    // Clean up event listener on component unmount
     return () => {
       window.removeEventListener('resize', handleInitialAspectRatio);
     };
@@ -35,20 +28,15 @@ export default function DataChart({ todayData }: any) {
 
   useEffect(() => {
     const handleResize = () => {
-      if (window.innerWidth >= 1020) {
-        setAspectRatio(2); // Change aspect ratio for larger screens
-      } else {
-        setAspectRatio(1); // Reset aspect ratio for smaller screens
-      }
+      setAspectRatio(window.innerWidth >= 1020 ? 2 : 1);
     };
 
     window.addEventListener('resize', handleResize);
 
-    // Clean up event listener on component unmount
     return () => {
       window.removeEventListener('resize', handleResize);
     };
-  }, [window.innerWidth]);
+  }, []);
 
   const data = {
     labels: dataNames,
@@ -68,7 +56,7 @@ export default function DataChart({ todayData }: any) {
         ]
       }
     ]
-  }
+  };
 
   const chartOptions = {
     responsive: true, 
@@ -76,16 +64,12 @@ export default function DataChart({ todayData }: any) {
     aspectRatio: aspectRatio,
   };
 
-
-
   return ( 
-    <>
-      <div className='carbon-intensity-energy-graph'>
-        <Pie 
-          data={data} 
-          options={chartOptions} // Pass options directly to the Pie component
-        />
-      </div>
-    </>
-  )
+    <div className='carbon-intensity-energy-graph'>
+      <Pie 
+        data={data} 
+        options={chartOptions} 
+      />
+    </div>
+  );
 }

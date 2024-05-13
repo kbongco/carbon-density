@@ -91,11 +91,7 @@ export default function Home() {
   const oneWeekAgo = getDateOneWeekAgo(todayDateISO);
   const oneMonthAgo = getDateOneMonthAgo(todayDateISO);
 
-
-  // TODO: 
-  // Display API data for Month and Week -> did average will need to readjust table copmponent 
-  // Fix up sorting implementation on the UI 
-  // Create Detail Page design 
+  
 
   return (
     <>
@@ -107,7 +103,7 @@ export default function Home() {
                 Carbon Intensity Data for {currentDate}
               </p>
               <div className='carbon-density-graph'>
-                <DataChart todayData={todayData} />
+              <DataChart chartData={todayData.generationData} />
               </div>
             </div>
             <div className='carbon-density-data-container'>

@@ -4,11 +4,9 @@ import { faSortDown } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export default function Table({ data, columns, handleViewDetails }: any) {
-  console.log(data, 'yes');
   const [sortedData, setSortedData] = useState<any[]>([]);
 
   useEffect(() => {
-    // Initially, set the sorted data to be the same as the original data
     setSortedData(data);
   }, [data]);
 
@@ -36,10 +34,9 @@ export default function Table({ data, columns, handleViewDetails }: any) {
 
     
   const sortData = () => {
-    // Perform sorting based on the intensity value
+
     const sorted = [...data].sort((a, b) => a.intensity.forecast - b.intensity.forecast);
     setSortedData(sorted);
-    console.log(sorted);
   };
 
   return (

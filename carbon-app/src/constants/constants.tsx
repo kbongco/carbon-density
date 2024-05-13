@@ -1,3 +1,5 @@
+import { Options } from "../interfaces/component-interfaces";
+
 export const countries = ['England', 'Scotland', 'Wales'];
 
 export const carbonIntensityAPI = 'https://api.carbonintensity.org.uk/intensity/date';
@@ -27,3 +29,11 @@ export const specificRegions = [
   { key: 'intensity.forecast', label: 'Forecast' },
   { key: 'intensity.index', label: 'Index' },
 ]
+
+export const dateOptions: Options[] = [
+  { value: '', label: 'Select an option' }, // Default option
+  { value: '24hours', label: '24 hours' },
+  { value: '48hours', label: '48 hours' },
+  { value: '1week', label: '1 week' },
+  { value: '1month', label: '1 month' }
+];

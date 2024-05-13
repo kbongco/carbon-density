@@ -38,22 +38,64 @@
         display: flex;
         gap: 0.5rem;
       }
+
+      .selected {
+        text-decoration: underline;
+      }
+      
+      .unselected {
+        text-decoration: none;
+      }
+    }
+  }
+
+  .carbon-density-text {
+    .hidden-link {
+      display: none;
     }
   }
 }
 
-.carbon-density-card-container {
+.carbon-regional-density-card-container {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  .regional-card-data-info {
-    width: 60%;
+  align-items: center;
+  gap: 1rem;
+
+  .regional-card-data-info-side {
+    width: 220px;
   }
 }
 
 .intensity-card-text {
   margin-top: 0.5rem;
   text-align: center;
+}
+
+.intensity-card-text-color {
+  margin-top: 0.5rem;
+  text-align: center;
+
+  &.very-low-intensity {
+    color: #98FB98; 
+  }
+
+  &.low-intensity {
+    color: #133b24;
+  }
+
+  &.moderate-intensity {
+    color: #F9A825;
+  }
+
+  &.high-intensity {
+    color: red;
+  }
+
+  &.very-high-intensity {
+    color: #8B0000;
+  }
 }
 
 .carbon-density-regional-container {

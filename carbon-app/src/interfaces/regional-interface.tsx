@@ -19,3 +19,15 @@ export interface GenerationMix {
   fuel: string;
   perc: number;
 }
+
+
+export interface RegionInterface {
+  from: string;
+  generationmix: GenerationMix[];
+  intensity: {
+    forecast: number;
+    index: string;
+  };
+  to: string;
+  [key: string]: any; 
+}
