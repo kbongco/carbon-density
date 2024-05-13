@@ -35,6 +35,38 @@ export default function RegionalDetails() {
   const [timePeriodAverage, setTimePeriodAverage] = useState<number>(0);
 
 
+  useEffect(() => {
+    const storedState = localStorage.getItem('regionalDetailsState');
+    if (storedState) {
+      const parsedState = JSON.parse(storedState);
+      setSelectedValue(parsedState.selectedValue);
+      setSelectedRegion(parsedState.selectedRegion);
+      setDate(parsedState.date);
+      setquickSelectDateStart(parsedState.quickSelectDateStart);
+      setQuickSelectDateValue(parsedState.quickSelectDateValue);
+      setSelectedDateData(parsedState.selectedDateData);
+      setSelectedRegionId(parsedState.selectedRegionid);
+      setTimePeriodAverage(parsedState.timePeriodAverage);
+    }
+  }, []);
+
+  // Store state in local storage whenever it changes
+  useEffect(() => {
+    const stateToStore = JSON.stringify({
+      selectedValue,
+      selectedRegion,
+      date,
+      quickSelectDateStart,
+      quickSelectDateValue,
+      selectedDateData,
+      selectedRegionid,
+      timePeriodAverage
+    });
+    localStorage.setItem('regionalDetailsState', stateToStore);
+  }, [selectedValue, selectedRegion, date, quickSelectDateStart, quickSelectDateValue, selectedDateData, selectedRegionid, timePeriodAverage]);
+
+
+
   const getDate = new Date(); // Current date and time
   const currentDateISOTime = new Date().toISOString();
   const options: Intl.DateTimeFormatOptions = {
