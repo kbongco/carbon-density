@@ -1,75 +1,41 @@
-# Hiring Test
+## Coding Intensity Display App 
 
-## Summary
+An app created utilizing the Carbon Intensity API which displays the Carbon Intensity in the UK. 
 
-Create an app that loads and displays carbon intensity data from National Grid ESO's carbon intensity API. Please read the full the description before beginning.
+## Packages and Libraries used 
+* React.js ver 16 
+* Webpack
+* React-router-dom
+* SCSS
+* Typescript
+* Chartjs
+  
+## Design for this app
+https://www.figma.com/file/pFH0haDm5oDzAAbdjLETZM/Untitled?type=design&node-id=352%3A60&mode=design&t=8hzqTgPDjb9kmLDH-1
 
-## Detailed Requirements
+I created a wireframe so I would have an idea on how I would structure my UI when I would code it out. 
 
-Broken down into Required - General, Required - Functionality, Bonus, and Allowances
+## Initial App Structure 
+App.tsx 
+|
+Home.tsx 
+|
+Regional Section (this there would be a link which would take us to the regional page)
+|
+Regional Details Page
 
-### Required - General
+## Overall Thoughts
+This was one of the most challenging projects I have ever gotten for a take-home assignment. I had fun with it. One of the challenges I came across was determining how to handle state either via a library or React Context, as well as making the decision to create my own components as opposed to using a component library, due to the version of React being used. Other challenges include determining what to sacrifice in terms of functionality while still meeting MVP, data displayed, UI, etc. 
 
-* Use React. We have given you a basic app boilerplate to get started.
-* Use CSS (or a preprocessor if you want to get fancy).
-* Add some design flair.
-* Attempt at least 1 item from both bonus categories (and explain your choices).
-* Use best practices for source code management (commit granularity, commit message strategy, etc.).
+## Bonus Requirements Choices 
 
-### Required - Functionality
+I went down the responsive route as well as the interactive chart route in the functionality section. After reviewing the data and the API I realized that if I were a user viewing this data on a table, especially the ones where there are hundreds of data I would get bored and probably get lost reading it. When displaying the regional data, I thought a table would be appropriate for it, but when breaking down the forecasts and the trends, using a graph would be more eye-catching and visually appealing. 
 
-#### Home (Overview) Page
-* Display today's overall carbon intensity.
-* Display today's carbon intensity by region (ex. as a table).
-* User should be able to sort regions by carbon intensity.
-* Clicking on a region should open highlights of that region in a side panel.
-* Side panel should display region's carbon intensity from the past week and past month.
-* Side panel should have a "Go to Region" link/button that takes the user to a region details page.
+When it comes to the responsive route, we live in a world where everyone is constantly using their phones, so I went with a mobile first design and worked from smaller screens to bigger screens. 
 
-#### Region (Details) Page
-* User should be able to select any time range.
-* User should be able to switch to a different region.
-* Display the overall carbon intensity for the selected time range.
-* Display the carbon intensity for each day within the time range.
+For the other bonus section, I went down the Typescript route. While I admit I used 'anys' for some of the more trickier types when I was writing this out I did ensure that I created interfaces and types especially for the API response data.
 
-### Bonus
+## Deployment
+https://carbon-intensity-kb.netlify.app/
 
-#### Functionality
-* Use interactive graphics (ex. charts) to show data on the region page.
-* Incorporate relevant data in addition to carbon intensity, either from the National Grid API or another public API.
-* Make app responsive (for different screen sizes).
-* Add web accessibility.
-* Add localization.
 
-#### Other
-* Use TypeScript.
-* Include unit tests.
-* Implement a code linter and configure which rules to use (perhaps select some of your favorite and/or most-used rules?).
-
-### Allowances
-
-You may use any standard/common NPM libraries, keeping in mind that we are trying to assess you and not the library creators.
-
-## API Docs
-
-https://carbon-intensity.github.io/api-definitions/#carbon-intensity-api-v2-0-0
-
-## Grading
-
-* Functionality.
-* Clarity and organization of code.
-* Mastery of React.
-* Handling of data and application state (Ex. Redux?).
-* User interface and creativity of design.
-
-## Delivery
-
-Choose your own adventure:
-* Share via Google Drive link or something similar.
-* Upload to a *private* repo and share it with us.
-
-*Make sure to preserve git history*
-
-## Just for Kicks
-
-Host the running app somewhere. This is certainly not a requirement, so we will leave this up to you ;)
