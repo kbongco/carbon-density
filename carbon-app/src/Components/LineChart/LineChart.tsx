@@ -8,8 +8,8 @@ Chart.register(...registerables);
 export default function LineChart({ data, onPointClick }: any)
 {
   console.log(data, 'datas-average');
-  const dataLabels = data?.map((labels: any) => labels.date);
-  const displayData = data?.map((forecast: any) => forecast.average);
+  const dataLabels = data?.map((labels: {date: string}) => labels.date);
+  const displayData = data?.map((forecast: { average: string }) => forecast.average);
   console.log(dataLabels);
   console.log(displayData, 'displayed')
 

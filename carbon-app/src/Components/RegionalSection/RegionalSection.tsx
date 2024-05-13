@@ -7,12 +7,14 @@ import calculateAverage from "../../utils/calculateAverage";
 import getDateOneMonthAgo from "../../utils/calculateDateMonth";
 import './RegionalSection.scss';
 import { Link } from "react-router-dom";
+import { Region } from "../../interfaces/regional-interface";
 
 export default function RegionalSection({ regionalData }: any) {
   const [selectedRegion, setSelectedRegion] = useState<any>(null);
   const [selectedPeriod, setSelectedPeriod] = useState('Current');
   const [averageForecast, setAverageForecast] = useState(0);
   const [filteredData, setFilteredData] = useState<any[]>([]);
+  console.log(regionalData,'data');
 
   const allRegions = regionalData?.allRegions?.[0].regions
   const totalItemsRegions = regionalData?.allRegions?.[0]?.regions?.length;
@@ -24,7 +26,7 @@ export default function RegionalSection({ regionalData }: any) {
   const itemsPerPage = 6;
   const regionId = selectedRegion?.regionid;
 
-  const handlePeriodClick = (period: any) => {
+  const handlePeriodClick = (period: string) => {
     setSelectedPeriod(period);
   };
 
@@ -86,9 +88,9 @@ export default function RegionalSection({ regionalData }: any) {
     }
   }, [selectedPeriod, regionId]);
 
-  const handleViewDetails = (regionData: any) => {
+  const handleViewDetails = (regionData: Region) => {
     setSelectedRegion(regionData);
-    console.log(regionData);
+    console.log(regionData,'testing-1-2');
     setSelectedPeriod('Current');
     setAverageForecast(0);
   };

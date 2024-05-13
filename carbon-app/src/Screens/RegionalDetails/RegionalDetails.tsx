@@ -87,7 +87,7 @@ export default function RegionalDetails() {
         const byDayAverage = calculateAverageIntensity(data.data.data);
         const totalLengthAv = byDayAverage.length;
         setAverageForecastByDay(byDayAverage);
-        const totalAv = byDayAverage.map((av: any) => av.average).reduce((acc: any, cur: any) => acc + cur, 0);
+        const totalAv = byDayAverage.map((av: any) => av.average).reduce((acc: number, cur: number) => acc + cur, 0);
         const actualAverage = Math.round(totalAv) / totalLengthAv;
         setTimePeriodAverage(actualAverage);
         const averageTotal = calculateGenerationMixAverage(data.data.data);
