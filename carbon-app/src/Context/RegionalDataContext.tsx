@@ -19,7 +19,7 @@ export const DataProvider = ({ children }:any) => {
 
     fetchData();
 
-    // Clean up
+
     return () => {
       setApiData(null);
     };

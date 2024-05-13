@@ -8,14 +8,13 @@ import getDateOneMonthAgo from "../../utils/calculateDateMonth";
 import './RegionalSection.scss';
 import { Link } from "react-router-dom";
 import { Region } from "../../interfaces/regional-interface";
+import changeIntensityTextColor from "../../utils/changeIntensityTextColor";
 
 export default function RegionalSection({ regionalData }: any) {
   const [selectedRegion, setSelectedRegion] = useState<any>(null);
   const [selectedPeriod, setSelectedPeriod] = useState('Current');
   const [averageForecast, setAverageForecast] = useState(0);
   const [filteredData, setFilteredData] = useState<any[]>([]);
-
-
   const allRegions = regionalData?.allRegions?.[0].regions
   const totalItemsRegions = regionalData?.allRegions?.[0]?.regions?.length;
   const todayDateISO = new Date().toISOString();
@@ -139,18 +138,18 @@ export default function RegionalSection({ regionalData }: any) {
                 <h1>{selectedRegion.dnoregion}</h1>
                 {selectedPeriod === 'Current' && (
                   <div>
-                    <div className='carbon-density-card-container'>
-                      <div className='regional-card-data-info'>
+                    <div className='carbon-regional-density-card-container'>
+                      <div className='regional-card-data-info-side'>
                         <DataCards>
                           <p className='intensity-card-text'>Intensity Forecast</p>
                           <p className='intensity-card-text'>{selectedRegion.intensity.forecast}</p>
                         </DataCards>
                       </div>
-                      <div className='carbon-density-card-container'>
-                        <div className='regional-card-data-info'>
+                      <div className='carbon-regional-density-card-container'>
+                        <div className='regional-card-data-info-side'>
                           <DataCards>
                             <p className='intensity-card-text'>Intensity Index</p>
-                            <p className='intensity-card-text'>{selectedRegion.intensity.index}</p>
+                            <p className={`intensity-card-text-color ${changeIntensityTextColor(selectedRegion.intensity.index)}`}>{selectedRegion.intensity.index.toUpperCase()}</p>
                           </DataCards>
                         </div>
                       </div>

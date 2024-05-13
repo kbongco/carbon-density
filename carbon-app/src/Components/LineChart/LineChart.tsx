@@ -40,7 +40,7 @@ export default function LineChart({ data, onPointClick }: any)
 
   const options = {
     onClick: handlePointClick,
-    // Other chart options...
+
   };
 
   return ( 
