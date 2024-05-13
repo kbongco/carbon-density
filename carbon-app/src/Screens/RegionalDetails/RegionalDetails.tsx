@@ -30,7 +30,7 @@ export default function RegionalDetails() {
   const location = useLocation();
   const state = location.state;
   const { regionid } = useParams();
-  const regionalData:any = useData();
+  const regionalData: any = useData();
   const [selectedRegionid, setSelectedRegionId] = useState<any>(() => regionid);
   const [timePeriodAverage, setTimePeriodAverage] = useState<number>(0);
 
@@ -39,7 +39,7 @@ export default function RegionalDetails() {
   const currentDateISOTime = new Date().toISOString();
   const options: Intl.DateTimeFormatOptions = {
     year: 'numeric',
-    month: 'long', // Full month name
+    month: 'long', 
     day: 'numeric'
   };
   const currentDateToDisplay = getDate.toLocaleDateString('en-US', options);
@@ -87,7 +87,7 @@ export default function RegionalDetails() {
         const byDayAverage = calculateAverageIntensity(data.data.data);
         const totalLengthAv = byDayAverage.length;
         setAverageForecastByDay(byDayAverage);
-        const totalAv = byDayAverage.map((av: any) => av.average).reduce((acc: any, cur: any) => acc + cur, 0);
+        const totalAv = byDayAverage.map((av: any) => av.average).reduce((acc: number, cur: number) => acc + cur, 0);
         const actualAverage = Math.round(totalAv) / totalLengthAv;
         setTimePeriodAverage(actualAverage);
         const averageTotal = calculateGenerationMixAverage(data.data.data);
@@ -151,7 +151,7 @@ export default function RegionalDetails() {
                     <div className='carbon-intensity-regional-card-container'>
                       <DataCards>
                         <p className='carbon-intensity-forecast-header'>Index</p>
-                        <p className='carbon-intensity-regional-forecast-text'>{selectedRegion?.intensity?.index}</p>
+                        <p className={`carbon-intensity-regional-forecast-text-color ${changeIntensityTextColor(selectedRegion?.intensity?.index)}`}>{selectedRegion?.intensity?.index.toUpperCase()}</p>
                       </DataCards>
                     </div>
                   </div>
@@ -170,16 +170,16 @@ export default function RegionalDetails() {
               <div className='carbon-intensity-regional-data-container'>
                 <div className='carbon-intensity-regional-data'>
                   <div className='carbon-intensity-regional-information-container'>
-                      <div className='carbon-intensity-regional-card-container'>
+                    <div className='carbon-intensity-regional-card-container'>
                       <DataCards>
                         <p className='carbon-intensity-forecast-header'>Forecast</p>
-                        <p className='carbon-intensity-regional-forecast-text'>{state?.selectedRegion?.intensity?.forecast}</p>
+                        <p className={`carbon-intensity-regional-forecast-text-color`}>{state?.selectedRegion?.intensity?.forecast}</p>
                       </DataCards>
                     </div>
                     <div className='carbon-intensity-regional-card-container'>
                       <DataCards>
                         <p className='carbon-intensity-forecast-header'>Index</p>
-                        <p className='carbon-intensity-regional-forecast-text'>{state?.selectedRegion?.intensity?.index}</p>
+                        <p className={`carbon-intensity-regional-forecast-text-color ${changeIntensityTextColor(state?.selectedRegion?.intensity?.index)}`}>{state?.selectedRegion?.intensity?.index.toUpperCase()}</p>
                       </DataCards>
                     </div>
                   </div>
@@ -192,7 +192,7 @@ export default function RegionalDetails() {
         <DisplayBackground>
           <h1>View Carbon Intensity in select intervals</h1>
           <div>
-          <Select label="Quick Select a range" options={dateOptions} value={quickSelectDateValue} onChange={quickSelectDateChange} />
+            <Select label="Quick Select a range" options={dateOptions} value={quickSelectDateValue} onChange={quickSelectDateChange} />
           </div>
           {selectedDateData !== null ? <>
             <p>Generation Mix Average
@@ -202,26 +202,40 @@ export default function RegionalDetails() {
           </> : ''}
         </DisplayBackground>
         <DisplayBackground>
-          <div>
-          <div className='carbon-intensity-regional-data-information'>
-            <h1>Information</h1>
-            <ul>
+          <div className='carbon-intensity-regional-side-panel'>
+            <div className='carbon-intensity-regional-data-information'>
+              <h1>Information</h1>
+              <ul>
                 <li>What is this data?</li>
                 <ul>
                   <li>
                     This data shows the average carbon intensity based on the time period chosen
                   </li>
                 </ul>
+                <li>What exactly is the forecast?</li>
+                <ul>
+                  <li> The Carbon Intensity forecast includes CO2 emissions related to electricity generation only. There is a formula used to calculate this. Estimating the carbon intensity of the electricity
+                    consumed in each region requires modelling the
+                    power flows between importing/exporting regions
+                    and the carbon intensity of those power flows.
+                  </li>
+                </ul>
+                <li>Where can i learn more about this? </li>
+                <ul>
+                  <li> You can check out the website here:
+                    <a href='https://carbonintensity.org.uk/'>Carbon Intensity in the UK</a>
+                  </li>
+                </ul>
               </ul>
               {timePeriodAverage >= 0.1 ? <div className='selected-date-range-average-container'>
                 <h3>Average for Selected Date Range</h3>
-                <div>
-              <DataCards>
-                <p className='selected-date-card-header'>Intensity Average</p>
-                <p className="selected-date-card-text">{Math.round(timePeriodAverage)}</p>
-              </DataCards>
-              </div>
-            </div>: <> <h2>Select a date range above to see the average</h2></> }
+                <div className='selected-date-range-average-container'>
+                  <DataCards>
+                    <p className='selected-date-card-header'>Intensity Average</p>
+                    <p className="selected-date-card-text">{Math.round(timePeriodAverage)}</p>
+                  </DataCards>
+                </div>
+              </div> : <> <h2>Select a date range above to see the average</h2></>}
               {clickedPoint ? (
                 <div className='selected-date-card-container-all'>
                   <h2>Selected Date Intensity Average</h2>
@@ -240,13 +254,13 @@ export default function RegionalDetails() {
                       </p>
                     </DataCards>
                   </div>
-              </div>
-              
+                </div>
+
               ) : (
                 <h2>Click on a point in the graph to get more details</h2>
               )}
             </div>
-            </div>
+          </div>
         </DisplayBackground>
       </div>
     </>

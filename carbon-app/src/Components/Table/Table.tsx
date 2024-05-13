@@ -4,7 +4,6 @@ import { faSortDown } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export default function Table({ data, columns, handleViewDetails }: any) {
-  console.log(data, 'yes');
   const [sortedData, setSortedData] = useState<any[]>([]);
 
   useEffect(() => {
@@ -38,7 +37,6 @@ export default function Table({ data, columns, handleViewDetails }: any) {
 
     const sorted = [...data].sort((a, b) => a.intensity.forecast - b.intensity.forecast);
     setSortedData(sorted);
-    console.log(sorted);
   };
 
   return (

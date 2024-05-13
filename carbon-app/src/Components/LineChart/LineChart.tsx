@@ -7,11 +7,10 @@ Chart.register(...registerables);
 
 export default function LineChart({ data, onPointClick }: any)
 {
-  console.log(data, 'datas-average');
-  const dataLabels = data?.map((labels: any) => labels.date);
-  const displayData = data?.map((forecast: any) => forecast.average);
-  console.log(dataLabels);
-  console.log(displayData, 'displayed')
+
+  const dataLabels = data?.map((labels: {date: string}) => labels.date);
+  const displayData = data?.map((forecast: { average: string }) => forecast.average);
+
 
 
   const handlePointClick = (event:any, elements:any) => {
@@ -21,7 +20,7 @@ export default function LineChart({ data, onPointClick }: any)
       
       const clickedData = data[index];
       const clickedValue = clickedData ? clickedData.average : null;
-      console.log(clickedValue);
+
       
       onPointClick(clickedValue);
     }
@@ -41,7 +40,7 @@ export default function LineChart({ data, onPointClick }: any)
 
   const options = {
     onClick: handlePointClick,
-    // Other chart options...
+
   };
 
   return ( 

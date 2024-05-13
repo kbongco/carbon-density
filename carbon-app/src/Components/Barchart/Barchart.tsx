@@ -4,16 +4,14 @@ import { Chart, registerables } from 'chart.js';
 Chart.register(...registerables);
 
 export default function BarGraph({ data }: any) {
-  // Initialize state for chart data
   const [chartData, setChartData] = useState<any>(null);
 
-  // Update chart data when data prop changes
+
   useEffect(() => {
     if (data) {
       const fuels = Object.keys(data);
       const percentages = Object.values(data);
 
-      // Create chart data object
       const newChartData = {
         labels: fuels,
         datasets: [{
@@ -25,7 +23,7 @@ export default function BarGraph({ data }: any) {
         }],
       };
 
-      // Update state with new chart data
+
       setChartData(newChartData);
     } else {
       // If data is empty, set chart data to null
@@ -33,12 +31,12 @@ export default function BarGraph({ data }: any) {
     }
   }, [data]);
 
-  // Render loading message if chart data is null
+
   if (!chartData) {
     return <div>No data available</div>;
   }
 
-  // Define chart options
+
   const chartOptions = {
     scales: {
       x: {
@@ -62,7 +60,6 @@ export default function BarGraph({ data }: any) {
     },
   };
 
-  // Render chart with chart data and options
   return (
     <div>
       <Bar data={chartData} options={chartOptions} />
