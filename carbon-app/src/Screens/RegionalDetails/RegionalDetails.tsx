@@ -17,6 +17,7 @@ import calculateAverageIntensity from '../../utils/calculateAverageForecast';
 import LineChart from '../../Components/LineChart/LineChart';
 import calculateIndex from '../../utils/calculateIndex';
 import changeIntensityTextColor from '../../utils/changeIntensityTextColor';
+import { useData } from "../../Context/RegionalDataContext";
 
 export default function RegionalDetails() {
   const navigate = useNavigate();
@@ -29,7 +30,7 @@ export default function RegionalDetails() {
   const location = useLocation();
   const state = location.state;
   const { regionid } = useParams();
-  console.log(regionid,'regions')
+  const regionalData:any = useData();
   const [selectedRegionid, setSelectedRegionId] = useState<any>(() => regionid);
   const [timePeriodAverage, setTimePeriodAverage] = useState<number>(0);
 
@@ -55,7 +56,7 @@ export default function RegionalDetails() {
   const handleChange = (value: number) => {
     setSelectedValue(value);
 
-    const matchedRegion = state?.allRegions?.find((region: Region) => region.regionid == value);
+    const matchedRegion = regionalData?.data[0].regions.find((region: Region) => region.regionid == value);
     setSelectedRegion(matchedRegion);
     setSelectedRegionId(value);
 
@@ -63,10 +64,11 @@ export default function RegionalDetails() {
     navigate(`/regional-data/${value}`, { replace: true });
   };
 
-  const regionOptions = state?.allRegions?.map((region: Region) => ({
+
+  const regionOptions = regionalData?.data[0].regions.map((region: Region) => ({
     value: region?.regionid,
     label: region?.dnoregion
-  }))
+  }));
 
   const handlePointClick = (value: any) => {
     setClickedPoint(value);
@@ -98,8 +100,7 @@ export default function RegionalDetails() {
 
   useEffect(() => {
     if (selectedRegion) {
-      console.log(selectedRegion, 'sel')
-      const filteredRegion = state?.allRegions.find((region: Region) => region.regionid == selectedRegion);
+      const filteredRegion = regionalData?.data[0].regions.find((region: Region) => region.regionid == selectedRegion);
       setCurrentRegion(filteredRegion);
     }
   }, [selectedRegion]);
