@@ -1,6 +1,6 @@
 import React from "react";
 import { SelectComponent } from "../../interfaces/component-interfaces";
-
+import './Select.scss';
 export default function Select({ label, options, value, onChange }: SelectComponent) {
   return (
     <>

@@ -122,7 +122,7 @@ export default function RegionalDetails() {
 
           <Select label='Choose an option' options={regionOptions} value={selectedValue} onChange={handleChange} />
         </div>
-        <div>
+        <div className='carbon-density-go-home-link'>
           <Link to='/'>
             Go back Home
           </Link>
@@ -201,25 +201,29 @@ export default function RegionalDetails() {
           </> : ''}
         </DisplayBackground>
         <DisplayBackground>
-          <div className='carbon-intensity-regional-information'>
+          <div>
+          <div className='carbon-intensity-regional-data-information'>
             <h1>Information</h1>
             <ul>
-              <li>What is generation mix?</li>
-              <ul>
-                <li>The generation mix is the fuel type which contributes to the overal Carbon intensity. It includes all CO2 emissions related to electricity generation</li>
+                <li>What is this data?</li>
+                <ul>
+                  <li>
+                    This data shows the average carbon intensity based on the time period chosen
+                  </li>
+                </ul>
               </ul>
-            </ul>
-
-            <div>
-              <h3>Average for Selected Date Range</h3>
+              {timePeriodAverage >= 0.1 ? <div className='selected-date-range-average-container'>
+                <h3>Average for Selected Date Range</h3>
+                <div>
               <DataCards>
-                <p>Intensity Average for time span</p>
-                <p>{Math.round(timePeriodAverage)}</p>
+                <p className='selected-date-card-header'>Intensity Average</p>
+                <p className="selected-date-card-text">{Math.round(timePeriodAverage)}</p>
               </DataCards>
-                  {/* <p>{Math.round(timePeriodAverage)}</p> */}
               </div>
+            </div>: <> <h2>Select a date range above to see the average</h2></> }
               {clickedPoint ? (
                 <div className='selected-date-card-container-all'>
+                  <h2>Selected Date Intensity Average</h2>
                   <div className='selected-date-card-container'>
                     <DataCards>
                       <p className='selected-date-card-header'>Carbon Intensity</p>
@@ -240,7 +244,8 @@ export default function RegionalDetails() {
               ) : (
                 <h2>Click on a point in the graph to get more details</h2>
               )}
-          </div>
+            </div>
+            </div>
         </DisplayBackground>
       </div>
     </>

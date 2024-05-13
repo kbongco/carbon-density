@@ -31,6 +31,12 @@
   }
 }
 
+.carbon-density-go-home-link {
+  display: flex;
+  justify-content: flex-end;
+  margin-right: 0.5rem;
+}
+
 .carbon-intensity-similar-container {
   display: flex;
   flex-direction: column;
@@ -63,9 +69,19 @@
   align-items: center;
   gap: 1rem;
 
+  .selected-date-range-average-container {
+    p {
+      text-align: center;
+      font-size: 1.2rem;
+      margin-top: 0;
+      margin-bottom: 0;
+
+    }
+  }
+
   @media screen and (min-width: 768px) {
     display: grid;
-    grid-template-columns: repeat(1, 1fr);
+    grid-template-columns: 70% 30%; /* Adjust the width of the columns */
     gap: 20px;
     justify-content: stretch;
     width: 90%;
@@ -73,7 +89,7 @@
   }
 
   .selected-date-card-container-all {
-    width: 60%;
+    width: 80%;
     display: flex;
     flex-direction: column;
     gap: 1rem;
