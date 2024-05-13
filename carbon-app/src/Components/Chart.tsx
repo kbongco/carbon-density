@@ -8,7 +8,7 @@ Chart.register(PieController, ArcElement, Tooltip, Legend);
 export default function DataChart({ chartData }: any) {
   const dataNames = chartData?.generationmix?.map((name: { fuel: string; }) => name.fuel || []);
   const dataNumbers = chartData?.generationmix?.map((percent: { perc: number }) => percent.perc);
-  console.log(chartData);
+
 
   const [initialAspectRatio, setInitialAspectRatio] = useState(1);
 

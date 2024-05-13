@@ -18,7 +18,6 @@ export default function calculateAverageIntensity(data: RegionInterface[]) {
     return acc;
   }, {});
 
-  console.log(sameData, 'no');
 
   // Calculate the average intensity for each date
   const averages: any = Object.entries(sameData).map(

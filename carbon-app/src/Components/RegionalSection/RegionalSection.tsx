@@ -14,7 +14,7 @@ export default function RegionalSection({ regionalData }: any) {
   const [selectedPeriod, setSelectedPeriod] = useState('Current');
   const [averageForecast, setAverageForecast] = useState(0);
   const [filteredData, setFilteredData] = useState<any[]>([]);
-  console.log(regionalData,'data');
+
 
   const allRegions = regionalData?.allRegions?.[0].regions
   const totalItemsRegions = regionalData?.allRegions?.[0]?.regions?.length;
@@ -74,7 +74,6 @@ export default function RegionalSection({ regionalData }: any) {
           const toTime = entry.to.split('T')[1].split(':')[0];
           return fromTime === '00' && toTime === '00';
         });
-        console.log(filteredData, 'bro');
         const averageIntensity = calculateAverage(filteredData);
         setAverageForecast(Math.floor(averageIntensity));
         setFilteredData(filteredData);
@@ -90,7 +89,6 @@ export default function RegionalSection({ regionalData }: any) {
 
   const handleViewDetails = (regionData: Region) => {
     setSelectedRegion(regionData);
-    console.log(regionData,'testing-1-2');
     setSelectedPeriod('Current');
     setAverageForecast(0);
   };

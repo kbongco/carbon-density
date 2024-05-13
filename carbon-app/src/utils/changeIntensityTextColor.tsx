@@ -1,6 +1,5 @@
 export default function changeIntensityTextColor(intensity: unknown) {
-  console.log(typeof intensity);
-  console.log(intensity)
+
   const intensityString = intensity as string;
   switch (intensityString) {
     case 'very low':
