@@ -8,13 +8,16 @@ interface PaginationProps extends PaginationComponent {}
 
 export default function Pagination({ totalItems, itemsPerPage, currentPage, onPageChange }: PaginationProps) {
   const totalPages = Math.ceil(totalItems / itemsPerPage);
+  console.log(totalItems);
 
   const handlePageChange = (page: number) => {
     onPageChange(page);
+    console.log(page);
+    console.log('testing',page)
   };
   
   return (
-    <div className='carbon-density-pagination-container-comp'>
+    <div className='carbon-density-pagination-container-c\omp'>
       <button onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 0}>
       <FontAwesomeIcon icon={faBackward} />
       </button>

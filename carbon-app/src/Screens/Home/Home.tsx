@@ -91,11 +91,7 @@ export default function Home() {
   const oneWeekAgo = getDateOneWeekAgo(todayDateISO);
   const oneMonthAgo = getDateOneMonthAgo(todayDateISO);
 
-  // Major priorities for tomorrow:
-  // Fix pagination component
-  // Start working on date functionality
-  // Clean up styles
-  
+
 
   return (
     <>

@@ -28,6 +28,10 @@ export default function RegionalSection({ regionalData }: any) {
     setSelectedPeriod(period);
   };
 
+  const startIndex = currentPage * itemsPerPage;
+  const endIndex = Math.min(startIndex + itemsPerPage, filteredData.length);
+  const slicedData = filteredData.slice(startIndex, endIndex);
+
 
 
 
@@ -94,12 +98,10 @@ export default function RegionalSection({ regionalData }: any) {
   };
 
 
-  const handlePageChange = (newPage: number, data: any[]) => {
-    setCurrentPage(newPage);
-  };
 
   const handlePageMonthChange = (newPage: number, data: any[]) => {
     setCurrentMonthPage(newPage);
+    console.log('mointh', newPage)
   };
 
   const linkState = { selectedRegion, allRegions };
@@ -173,14 +175,18 @@ export default function RegionalSection({ regionalData }: any) {
                 {selectedPeriod === 'Month' && (
                   <>
                     <p>Previous Month Carbon Intensity Average</p>
-                    <Table columns={specificRegions} data={filteredData.slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage)} />
+                    <Table
+  columns={specificRegions}
+  data={filteredData.slice(currentPage * itemsPerPage, Math.min((currentPage + 1) * itemsPerPage, filteredData.length))}
+/>
+
                     <div className='carbon-density-pagination-container'>
-                      <Pagination
-                        totalItems={filteredData?.length}
-                        itemsPerPage={itemsPerPage}
-                        currentPage={currentPage}
-                        onPageChange={handlePageMonthChange}
-                      />
+                    <Pagination
+  totalItems={filteredData?.length}
+  itemsPerPage={itemsPerPage}
+  currentPage={currentMonthPage}
+  onPageChange={(newPage: number) => handlePageMonthChange(newPage, filteredData)}
+/>
                     </div>
                   </>
                 )}
