@@ -93,11 +93,6 @@ export default function RegionalSection({ regionalData }: any) {
     setAverageForecast(0);
   };
 
-
-  const handlePageChange = (newPage: number, data: any[]) => {
-    setCurrentPage(newPage);
-  };
-
   const handlePageMonthChange = (newPage: number, data: any[]) => {
     setCurrentMonthPage(newPage);
   };

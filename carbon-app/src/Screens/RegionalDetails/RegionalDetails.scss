@@ -28,6 +28,33 @@
       margin-top: 0.5rem;
       font-size: 1.2rem;
     }
+
+    .carbon-intensity-regional-forecast-text-color {
+      text-align: center;
+      margin-bottom: 0;
+      margin-top: 0.5rem;
+      font-size: 1.2rem; 
+
+      &.very-low-intensity {
+        color: #98FB98; 
+      }
+
+      &.low-intensity {
+        color: #133b24;
+      }
+    
+      &.moderate-intensity {
+        color: #F9A825;
+      }
+    
+      &.high-intensity {
+        color: red;
+      }
+
+      &.very-high-intensity {
+        color: #8B0000;
+      }
+    }
   }
 }
 

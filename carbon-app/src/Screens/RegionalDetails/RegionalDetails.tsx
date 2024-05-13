@@ -150,8 +150,8 @@ export default function RegionalDetails() {
                     </div>
                     <div className='carbon-intensity-regional-card-container'>
                       <DataCards>
-                        <p className='carbon-intensity-forecast-header'>Index</p>
-                        <p className='carbon-intensity-regional-forecast-text'>{selectedRegion?.intensity?.index}</p>
+                      <p className='carbon-intensity-forecast-header'>Index</p>
+                        <p className={`carbon-intensity-regional-forecast-text-color ${changeIntensityTextColor(selectedRegion?.intensity?.index)}`}>{selectedRegion?.intensity?.index.toUpperCase()}</p>
                       </DataCards>
                     </div>
                   </div>
@@ -173,13 +173,13 @@ export default function RegionalDetails() {
                       <div className='carbon-intensity-regional-card-container'>
                       <DataCards>
                         <p className='carbon-intensity-forecast-header'>Forecast</p>
-                        <p className='carbon-intensity-regional-forecast-text'>{state?.selectedRegion?.intensity?.forecast}</p>
+                          <p className={`carbon-intensity-regional-forecast-text-color`}>{state?.selectedRegion?.intensity?.forecast}</p>
                       </DataCards>
                     </div>
                     <div className='carbon-intensity-regional-card-container'>
                       <DataCards>
                         <p className='carbon-intensity-forecast-header'>Index</p>
-                        <p className='carbon-intensity-regional-forecast-text'>{state?.selectedRegion?.intensity?.index}</p>
+                        <p className={`carbon-intensity-regional-forecast-text-color ${changeIntensityTextColor(state?.selectedRegion?.intensity?.index)}`}>{state?.selectedRegion?.intensity?.index.toUpperCase()}</p>
                       </DataCards>
                     </div>
                   </div>
